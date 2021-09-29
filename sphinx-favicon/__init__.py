@@ -2,25 +2,38 @@ from typing import Any, Dict, Optional, Union
 
 import docutils.nodes as nodes
 from sphinx.application import Sphinx
-# from sphinx.util import logger
 from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
 SUPPORTED_MIME_TYPES = {
-    "png": "image/png",
+    "bmp": "image/x-ms-bmp",
+    "gif": "image/gif",
     "ico": "image/x-icon",
     "jpeg": "image/jpeg",
     "jpg": "image/jpeg",
-    "gif": "image/gif",
-    "bmp": "image/x-ms-bmp",
+    "png": "image/png",
 }
 
-def _generate_meta(favicon: Dict[str, str]) -> Optional[str]:
-    # ToDo: if not mime_type: _detect_mime_type(href) - if still None: leave out mime type
 
-    rel = favicon.get("rel", "icon") # default to rel=icon if no rel provided
-    href =  favicon["href"]
+def generate_meta(favicon: Dict[str, str]) -> str:
+    """Generate metatag based on favicon data.
+
+    Default behavior:
+    - If favicon data contains no ``rel`` attribute, sets ``rel="icon"``
+    - If no ``size`` attribute is provided, ``size`` will be omitted
+    - If no favicon MIME type is provided, the value for ``type`` will be
+      based on the favicon's file name extension (for BMP, GIF, ICO, JPG, JPEG,
+      or PNG files).
+
+    Args:
+        favicon (Dict[str, str]): Favicon data
+
+    Returns:
+        str: Favicon meta tag
+    """
+    rel = favicon.get("rel", "icon")
+    href = favicon["href"]
     meta = f'<link rel="{rel}" href="{href}"'
 
     # Read "sizes" from config. Omit sizes if not provided.
@@ -40,32 +53,35 @@ def _generate_meta(favicon: Dict[str, str]) -> Optional[str]:
 
     return meta
 
-def create_favicons_meta(favicons: Union[Dict[str, str], list[Dict[str, str]]]) -> Optional[str]:
+
+def create_favicons_meta(
+    favicons: Union[Dict[str, str], list[Dict[str, str]]]
+) -> Optional[str]:
+
     meta_favicons = ""
 
     # generate meta for favicon dict
     if isinstance(favicons, dict):
-        meta_favicons += _generate_meta(favicons)
+        meta_favicons += generate_meta(favicons)
     # generate meta for list of favicon dicts
     elif isinstance(favicons, list) and isinstance(favicons[0], dict):
         for favicon in favicons:
-            meta_favicons += _generate_meta(favicon) + "\n"
+            meta_favicons += generate_meta(favicon) + "\n"
     # generate meta for list of favicon URLs
     elif isinstance(favicons, list):
         for favicon in favicons:
-            meta_favicons += _generate_meta({"href": favicon}) + "\n"
+            meta_favicons += generate_meta({"href": favicon}) + "\n"
     else:
         logger.warning(
             """
-            Invalid config value for favicon extension. Favicons will not be
-            included in build.
-            """)
+            Invalid config value for favicon extension. Custom favicons will not
+            be included in build.
+            """
+        )
         return None
 
-    logger.info("++ META:")
-    logger.info(meta_favicons)
-
     return meta_favicons
+
 
 def html_page_context(
     app: Sphinx,
@@ -81,12 +97,9 @@ def html_page_context(
         favicons_meta = create_favicons_meta(app.config["favicons"])
         context["metatags"] += favicons_meta
 
+
 def setup(app: Sphinx) -> Dict[str, Any]:
     app.add_config_value("favicons", None, "html")
-
-    ###
-    # logger.info("Extension running!")
-    ###
 
     app.connect("html-page-context", html_page_context)
 
