@@ -13,6 +13,7 @@ SUPPORTED_MIME_TYPES = {
     "jpeg": "image/jpeg",
     "jpg": "image/jpeg",
     "png": "image/png",
+    "svg": "image/svg+xml"
 }
 
 
@@ -24,7 +25,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     - If no ``size`` attribute is provided, ``size`` will be omitted
     - If no favicon MIME type is provided, the value for ``type`` will be
       based on the favicon's file name extension (for BMP, GIF, ICO, JPG, JPEG,
-      or PNG files).
+      SVG, or PNG files).
 
     Args:
         favicon (Dict[str, str]): Favicon data
@@ -43,10 +44,11 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
     # Set MIME type. Detect MIME type if not provided. Omit "type=" if not detectable
     favicon_type = favicon.get("type", None)
+    favicon_file_ending = href.split(".")[-1]
     if favicon_type:
         meta += f' type="{favicon_type}"'
-    elif href.split(".")[-1] in SUPPORTED_MIME_TYPES.keys():
-        favicon_type = SUPPORTED_MIME_TYPES[href.split(".")[-1]]
+    elif favicon_file_ending in SUPPORTED_MIME_TYPES.keys():
+        favicon_type = SUPPORTED_MIME_TYPES[favicon_file_ending]
         meta += f' type="{favicon_type}"'
 
     meta += ">"
@@ -101,8 +103,6 @@ def html_page_context(
 ) -> None:
 
     favicons_meta = None
-
-    logger.info(context, color="green")
 
     if doctree and app.config["favicons"]:
         favicons_meta = create_favicons_meta(app.config["favicons"])
