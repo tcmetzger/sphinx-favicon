@@ -34,7 +34,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     """
     rel = favicon.get("rel", "icon")
     href = favicon["href"]
-    meta = f'<link rel="{rel}" href="{href}"'
+    meta = f'    <link rel="{rel}" href="{href}"'
 
     # Read "sizes" from config. Omit sizes if not provided.
     sizes = favicon.get("sizes", None)
@@ -101,6 +101,8 @@ def html_page_context(
 ) -> None:
 
     favicons_meta = None
+
+    logger.info(context, color="green")
 
     if doctree and app.config["favicons"]:
         favicons_meta = create_favicons_meta(app.config["favicons"])
