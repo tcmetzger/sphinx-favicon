@@ -13,7 +13,7 @@ SUPPORTED_MIME_TYPES = {
     "jpeg": "image/jpeg",
     "jpg": "image/jpeg",
     "png": "image/png",
-    "svg": "image/svg+xml"
+    "svg": "image/svg+xml",
 }
 
 
