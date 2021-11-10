@@ -169,7 +169,7 @@ def html_page_context(
 def setup(app: Sphinx) -> Dict[str, Any]:
     app.add_config_value("favicons", None, "html")
 
-    image_dir = Path(app.builder.outdir, PUBLIC_IMAGES_DIR)
+    image_dir = Path(app.outdir, PUBLIC_IMAGES_DIR)
     image_dir.mkdir(exist_ok=True)
 
     app.connect("html-page-context", html_page_context)
