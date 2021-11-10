@@ -1,3 +1,5 @@
+from itertools import chain
+
 import pytest
 import conftest
 
@@ -83,3 +85,24 @@ def test_list_of_urls(favicon_tags):
         == "https://secure.example.com/favicon/favicon-16x16.gif"
     )
     assert favicon_tags[0]["type"] == "image/gif"
+
+
+@pytest.mark.sphinx("html", testroot="relative_paths")
+def test_relative_paths(favicon_tags, favicon_tags_for_nested):
+
+    # this test should have 3 favicons
+    assert len(favicon_tags) == 3
+
+    # all favicons should have rel, href, and type attributes
+    for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
+        assert favicon_tag["rel"] == ["icon"]
+        assert "_image" in favicon_tag["href"]
+        assert favicon_tag["type"] == "image/svg+xml"
+        assert favicon_tag["sizes"]
+        assert "file" not in favicon_tag
+
+    for favicon_tag in favicon_tags:
+        assert favicon_tag["href"].startswith("_image")
+
+    for favicon_tag in favicon_tags_for_nested:
+        assert favicon_tag["href"].startswith("../_image")

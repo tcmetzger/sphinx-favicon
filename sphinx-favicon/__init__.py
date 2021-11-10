@@ -113,6 +113,7 @@ class FaviconMetadata:
             attrs.pop("file")
             attrs["href"] = str(self.pathto(str(href), resource=True))
             return attrs
+        return favicon
 
     def __call__(self) -> Optional[str]:
         """Create ``<link>`` elements for the given favicons.
@@ -162,7 +163,7 @@ def html_page_context(
     favicons_meta = None
 
     if doctree and app.config["favicons"]:
-        defs = app.confdir["favicons"]
+        defs = app.config["favicons"]
         favicons_meta = FaviconMetadata(app, context, PUBLIC_IMAGES_DIR, defs)
         context["metatags"] += favicons_meta()
 
