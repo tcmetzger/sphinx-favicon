@@ -1,2 +1,4 @@
-sphinx
+beautifulsoup4
+pytest
 setuptools
+sphinx

@@ -56,9 +56,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     return meta
 
 
-def create_favicons_meta(
-    favicons: Union[Dict[str, str], list[Dict[str, str]]]
-) -> Optional[str]:
+def create_favicons_meta(favicons: Union[Dict, list]) -> Optional[str]:
     """Create ``<link>`` elements for favicons defined in configuration.
 
     Args:
