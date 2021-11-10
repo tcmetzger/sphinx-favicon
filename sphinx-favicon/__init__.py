@@ -86,7 +86,7 @@ class FaviconMetadata:
         self.srcdir = Path(app.srcdir)
         self.confdir = Path(app.confdir)
         self.images_dir = Path(app.builder.outdir, images_dir)
-        self.favicons: FaviconsDef = app.config["favicons"]
+        self.favicons: FaviconsDef = favicons
         try:
             self.pathto: Callable = context["pathto"]  # Sphinx helper to resolve paths
         except KeyError as ex:
