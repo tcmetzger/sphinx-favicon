@@ -53,7 +53,7 @@ or a custom extension like [`"apple-touch-icon"`](https://developer.apple.com/li
 * ``href``: the **absolute path** to the favicon's image file
 * ``type``: a value specifying the [favicon's MIME type](https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type)
 * ``file``: if you want to use a file in the same directory as your documents,
-  you can specify a relative path instead of the ``href`` attibute.
+  you can specify a **relative path** instead of the ``href`` attibute.
   Please notice this path is solved according to your ``conf.py`` file.
 
 For example:

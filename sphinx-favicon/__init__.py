@@ -9,7 +9,7 @@ from sphinx.util.fileutil import copy_asset_file
 logger = logging.getLogger(__name__)
 
 PUBLIC_IMAGES_DIR = "_images"  # Same directory used by .. image::
-ABSOLUT_HREF_STARTERS = ("https://", "http://", "/")
+ABSOLUTE_HREF_STARTERS = ("https://", "http://", "/")
 FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 
 SUPPORTED_MIME_TYPES = {
@@ -133,7 +133,7 @@ class FaviconMetadata:
         # generate meta for list of favicon URLs
         elif isinstance(favicons, list):
             for favicon in favicons:
-                if any(favicon.startswith(x) for x in ABSOLUT_HREF_STARTERS):
+                if any(favicon.startswith(x) for x in ABSOLUTE_HREF_STARTERS):
                     attrs = {"href": favicon}
                 else:
                     attrs = self._local_to_href({"file": favicon})
