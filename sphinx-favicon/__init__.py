@@ -76,12 +76,13 @@ class FaviconMetadata:
 
     .. _event: https://www.sphinx-doc.org/en/master/extdev/appapi.html#events
     """
+
     def __init__(
         self,
         app: Sphinx,
         context: Dict[str, Any],
         images_dir: str,
-        favicons: FaviconsDef
+        favicons: FaviconsDef,
     ) -> None:
         self.srcdir = Path(app.srcdir)
         self.confdir = Path(app.confdir)
