@@ -13,26 +13,8 @@ def rootdir():
     return path(__file__).parent.abspath() / "roots"
 
 
-@pytest.fixture
-def srcdir(app):
-    return path(app.srcdir)
-
-
-@pytest.fixture
-def shareddir(srcdir, rootdir):
-    dirpath = srcdir.parent / "shared"
-    if not dirpath.exists():
-        (rootdir / "shared").copytree(dirpath)
-    return dirpath
-
-
 @pytest.fixture()
-def content(app, shareddir):
-    # meta tests to make sure test setup is correct
-    assert shareddir.exists()
-    assert shareddir == app.srcdir.parent / "shared"
-    assert len(shareddir.listdir()) > 0
-
+def content(app):
     app.build()
     yield app
 

@@ -4,18 +4,15 @@ master_doc = "index"
 exclude_patterns = ["_build"]
 
 html_theme = "basic"
+html_static_path = ["gfx"]
 
 favicons = [
     {
         "sizes": "32x32",
-        "file": "gfx/square.svg",
-    },
-    {
-        "sizes": "64x64",
-        "file": "./gfx/circle.svg",
+        "static-file": "square.svg",
     },
     {
         "sizes": "128x128",
-        "file": "../shared/triangle.svg",
+        "static-file": "nested/triangle.svg",
     },
 ]

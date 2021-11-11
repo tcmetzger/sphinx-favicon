@@ -87,22 +87,22 @@ def test_list_of_urls(favicon_tags):
     assert favicon_tags[0]["type"] == "image/gif"
 
 
-@pytest.mark.sphinx("html", testroot="relative_paths")
-def test_relative_paths(favicon_tags, favicon_tags_for_nested):
+@pytest.mark.sphinx("html", testroot="static_files")
+def test_static_files(favicon_tags, favicon_tags_for_nested):
 
     # this test should have 3 favicons
-    assert len(favicon_tags) == 3
+    assert len(favicon_tags) == 2
 
     # all favicons should have rel, href, type, and sizes attributes
     for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
         assert favicon_tag["rel"] == ["icon"]
-        assert "_image" in favicon_tag["href"]
+        assert "_static" in favicon_tag["href"]
         assert favicon_tag["type"] == "image/svg+xml"
         assert favicon_tag["sizes"]
-        assert "file" not in favicon_tag
+        assert "static-file" not in favicon_tag
 
     for favicon_tag in favicon_tags:
-        assert favicon_tag["href"].startswith("_image")
+        assert favicon_tag["href"].startswith("_static")
 
     for favicon_tag in favicon_tags_for_nested:
-        assert favicon_tag["href"].startswith("../_image")
+        assert favicon_tag["href"].startswith("../_static")
