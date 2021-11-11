@@ -50,7 +50,7 @@ document. You can use the following parameters to define a favicon:
 standard [`"icon"`](https://html.spec.whatwg.org/multipage/links.html#rel-icon)
 or a custom extension like [`"apple-touch-icon"`](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html)
 * ``sizes``: a value for the [favicon's ``sizes`` attribute](https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes)
-* ``href``: the **absolute path** to the favicon's image file
+* ``href``: the **absolute path** to the favicon's image file (not required if you use the ``file`` parameter, see below)
 * ``type``: a value specifying the [favicon's MIME type](https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type)
 * ``file``: if you want to use a file in the same directory as your documents,
   you can specify a **relative path** instead of the ``href`` attibute.

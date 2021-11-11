@@ -93,7 +93,7 @@ def test_relative_paths(favicon_tags, favicon_tags_for_nested):
     # this test should have 3 favicons
     assert len(favicon_tags) == 3
 
-    # all favicons should have rel, href, and type attributes
+    # all favicons should have rel, href, type, and sizes attributes
     for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
         assert favicon_tag["rel"] == ["icon"]
         assert "_image" in favicon_tag["href"]
