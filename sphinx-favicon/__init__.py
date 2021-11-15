@@ -1,10 +1,19 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 
 import docutils.nodes as nodes
 from sphinx.application import Sphinx
 from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
+
+FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
+
+OUTPUT_STATIC_DIR = "_static"
+FILE_FIELD = "static-file"
+"""field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"""
+ABSOLUTE_HREF_STARTERS = ("https://", "http://", "/")
+# `/` points to a file relative to HTML's <base />, so it should be treated as
+# absolute
 
 SUPPORTED_MIME_TYPES = {
     "bmp": "image/x-ms-bmp",
@@ -56,30 +65,47 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     return meta
 
 
-def create_favicons_meta(favicons: Union[Dict, list]) -> Optional[str]:
+def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
+    """Return a modified version of the icon attributes replacing ``static-file``
+    with the correct ``href``.
+    """
+    if FILE_FIELD in favicon:
+        attrs = favicon.copy()
+        attrs["href"] = pathto(f"_static/{attrs.pop(FILE_FIELD)}", resource=True)
+        return attrs
+    return favicon
+
+
+def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[str]:
     """Create ``<link>`` elements for favicons defined in configuration.
 
     Args:
-        favicons (Union[Dict[str, str], list[Dict[str, str]]]): Favicon data
-        from configuration. Can be a single dict or a list of dicts.
+        pathto (Callable): Sphinx helper_ function to handle relative URLs
+        favicons (FaviconsDef): Favicon data from configuration.
+            Can be a single dict or a list of dicts.
 
     Returns:
         str: ``<link>`` elements for all favicons.
-    """
 
+    .. _helper: https://www.sphinx-doc.org/en/master/templating.html#patht
+    """
     meta_favicons = ""
 
     # generate meta for favicon dict
     if isinstance(favicons, dict):
-        meta_favicons += generate_meta(favicons)
+        meta_favicons += generate_meta(_static_to_href(pathto, favicons))
     # generate meta for list of favicon dicts
     elif isinstance(favicons, list) and isinstance(favicons[0], dict):
         for favicon in favicons:
-            meta_favicons += generate_meta(favicon) + "\n"
+            meta_favicons += generate_meta(_static_to_href(pathto, favicon)) + "\n"
     # generate meta for list of favicon URLs
     elif isinstance(favicons, list):
         for favicon in favicons:
-            meta_favicons += generate_meta({"href": favicon}) + "\n"
+            if any(favicon.startswith(x) for x in ABSOLUTE_HREF_STARTERS):
+                attrs = {"href": favicon}
+            else:
+                attrs = _static_to_href(pathto, {FILE_FIELD: favicon})
+            meta_favicons += generate_meta(attrs) + "\n"
     else:
         logger.warning(
             """
@@ -100,16 +126,14 @@ def html_page_context(
     doctree: nodes.document,
 ) -> None:
 
-    favicons_meta = None
-
     if doctree and app.config["favicons"]:
-        favicons_meta = create_favicons_meta(app.config["favicons"])
+        pathto: Callable = context["pathto"]  # should exist in a HTML context
+        favicons_meta = create_favicons_meta(pathto, app.config["favicons"])
         context["metatags"] += favicons_meta
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
     app.add_config_value("favicons", None, "html")
-
     app.connect("html-page-context", html_page_context)
 
     return {

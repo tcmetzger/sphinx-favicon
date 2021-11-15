@@ -1,3 +1,6 @@
+from itertools import chain
+from pathlib import Path
+
 import pytest
 import conftest
 
@@ -83,3 +86,28 @@ def test_list_of_urls(favicon_tags):
         == "https://secure.example.com/favicon/favicon-16x16.gif"
     )
     assert favicon_tags[0]["type"] == "image/gif"
+
+
+@pytest.mark.sphinx("html", testroot="static_files")
+def test_static_files(app, favicon_tags, favicon_tags_for_nested):
+
+    # this test should have 3 favicons
+    assert len(favicon_tags) == 2
+
+    # all favicons should have rel, href, type, and sizes attributes
+    for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
+        assert favicon_tag["rel"] == ["icon"]
+        assert "_static" in favicon_tag["href"]
+        assert favicon_tag["type"] == "image/svg+xml"
+        assert favicon_tag["sizes"]
+        assert "static-file" not in favicon_tag
+
+    for favicon_tag in favicon_tags:
+        assert favicon_tag["href"].startswith("_static")
+
+    for favicon_tag in favicon_tags_for_nested:
+        assert favicon_tag["href"].startswith("../_static")
+
+    static = Path(app.outdir, "_static")
+    assert (static / "square.svg").exists()
+    assert (static / "nested/triangle.svg").exists()
