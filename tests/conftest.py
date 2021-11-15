@@ -40,9 +40,6 @@ def link_tags(content):
 @pytest.fixture()
 def favicon_tags(content):
     return _favicon_tags(content)
-    # return [
-    #     tag for tag in _link_tags(content) if tag.get("type", "").startswith("image")
-    # ]
 
 
 @pytest.fixture()
