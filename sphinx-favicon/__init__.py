@@ -71,7 +71,9 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     """
     if FILE_FIELD in favicon:
         attrs = favicon.copy()
-        attrs["href"] = pathto(f"_static/{attrs.pop(FILE_FIELD)}", resource=True)
+        attrs["href"] = pathto(
+            f"{OUTPUT_STATIC_DIR}/{attrs.pop(FILE_FIELD)}", resource=True
+        )
         return attrs
     return favicon
 
