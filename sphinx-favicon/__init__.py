@@ -34,7 +34,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     - If no ``size`` attribute is provided, ``size`` will be omitted
     - If no favicon MIME type is provided, the value for ``type`` will be
       based on the favicon's file name extension (for BMP, GIF, ICO, JPG, JPEG,
-      SVG, or PNG files).
+      SVG, or PNG files)
 
     Args:
         favicon (Dict[str, str]): Favicon data
@@ -66,8 +66,10 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
 
 def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
-    """Return a modified version of the icon attributes replacing ``static-file``
-    with the correct ``href``.
+    """If a ``static-file`` is provided, returns a modified version of the icon
+    attributes replacing ``static-file`` with the correct ``href``.
+
+    If both ``static-file`` and ``href`` are provided, ``href`` will be ignored.
     """
     if FILE_FIELD in favicon:
         attrs = favicon.copy()
