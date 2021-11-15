@@ -67,7 +67,7 @@ or a custom extension like [`"apple-touch-icon"`](https://developer.apple.com/li
 For example:
 
 ```python
-html_static_path = ["_static"]  # required if you use the "static-file" parameter
+html_static_path = ["_static"]  # html_static_path is required if you use the "static-file" parameter
 
 favicons = [
     {
