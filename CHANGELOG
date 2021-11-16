@@ -1,0 +1,10 @@
+2021-11-15    0.2:
+------------------
+  * enhancements:
+    - Add support for relative files (#2)
+    - Add basic tests (#3)
+    - Test on multiple os (#5)
+
+2021-10-03    0.1:
+------------------
+Initial release

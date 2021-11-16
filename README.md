@@ -25,13 +25,20 @@ pip install sphinx-favicon
 ## Usage
 
 After installing sphinx-favicon, you can configure the extension directly in
-`conf.py`.
+`conf.py` (see [Configuration](https://www.sphinx-doc.org/en/master/usage/configuration.html)
+in the Sphinx documentation for more information about this file).
 
-If you are using **local static files**, make sure you place them inside a
-directory listed in [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path).
-Alternatively you can also use **absolute URLs**.
+There are two ways to include favicon files in your configuration:
 
-First, add `"sphinx-favicon"` to the list of extensions:
+* Either use an **absolute URL** for a favicon file (beginning with `http://` or
+  `https://`). If you use an absolute URL, use the `"href"` parameter. See below
+  for examples.
+* Or use a **local static file** as a favicon. Make sure you place your local
+  static favicon file(s) inside a directory listed in [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path). If you use a relative path, use the `"static-file"` parameter. See below for
+  examples.
+
+To configure sphinx-favicon, first add `"sphinx-favicon"` to the list of
+extensions:
 
 ```python
 extensions = [
@@ -52,19 +59,20 @@ or a custom extension like [`"apple-touch-icon"`](https://developer.apple.com/li
 * ``sizes``: a value for the [favicon's ``sizes`` attribute](https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes)
 * ``href``: the **absolute URL** to the favicon's image file (not required if you use the ``static-file`` parameter, see below)
 * ``type``: a value specifying the [favicon's MIME type](https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type)
-* ``static-file``: **local static file** corresponding to your icon's image.
+* ``static-file``: the **local static file** corresponding to your icon's image.
    Please notice this path should be relative to a directory listed in
-   [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path).
+   [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path) (usually `_static`). If you define both
+   ``static-file`` and ``href``, the value for ``href`` will be ignored.
 
 For example:
 
 ```python
-html_static_path = ["assets"]
+html_static_path = ["_static"]  # html_static_path is required if you use the "static-file" parameter
 
 favicons = [
     {
         "rel": "icon",
-        "static-file": "icon.svg",  # => `assets/icon.svg` exists
+        "static-file": "icon.svg",  # => use `_static/icon.svg`
         "type": "image/svg+xml",
     },
     {
@@ -89,7 +97,7 @@ favicons = [
 ```
 
 Based on this configuration, Sphinx will include the following favicon
-information in the `<head>` of every HTML file:
+information in the HTML `<head>` element:
 
 ```html
 <link rel="icon" href="_static/icon.svg" type="image/svg+xml">
@@ -98,8 +106,11 @@ information in the `<head>` of every HTML file:
 <link rel="apple-touch-icon" href="https://secure.example.com/favicon/apple-touch-icon-180x180.png" sizes="180x180" type="image/png">
 ```
 
-To make things easier for you, sphinx-favicon can also add some metadata to each
-favicon's `<link>` element automatically:
+Note that the relative path to the favicon's image file in the static directory
+will be adjusted according to each html file's location.
+
+To make things easier for you, sphinx-favicon can also add *some* metadata to
+each favicon's `<link>` element automatically:
 
 * If you don't provide the `"rel"` argument, sphinx-favicon automatically adds
 `rel="icon"`.
@@ -114,10 +125,10 @@ Therefore, the following simplified configuration generates the exact same
 HTML result as above:
 
 ```python
-html_static_path = ["assets"]
+html_static_path = ["_static"]
 
 favicons = [
-    {"static-file": "icon.svg"},  # => `assets/icon.svg` exists
+    {"static-file": "icon.svg"},  # => use `_static/icon.svg`
     {
         "sizes": "16x16",
         "href": "https://secure.example.com/favicon/favicon-16x16.png",
@@ -160,9 +171,9 @@ The quickest way to add favicons is just adding a list of favicon URLs to
 `conf.py`.
 
 ```python
-html_static_path = ["assets"]
+html_static_path = ["_static"]
 favicons = [
-    "icon.svg",  # => `assets/icon.svg`
+    "icon.svg",  # => `_static_/icon.svg`
     "https://secure.example.com/favicon/favicon-16x16.gif",
     "https://secure.example.com/favicon/favicon-32x32.png",
     "https://secure.example.com/favicon/apple-touch-icon-180x180.png",
@@ -170,7 +181,7 @@ favicons = [
 ```
 
 Based on this configuration, Sphinx will include the following favicon
-information in the `<head>` of every HTML file:
+information in the HTML `<head>` element:
 
 ```html
 <link rel="icon" href="_static/icon.svg" type="image/svg+xml">
@@ -179,7 +190,7 @@ information in the `<head>` of every HTML file:
 <link rel="icon" href="https://secure.example.com/favicon/apple-touch-icon-180x180.png" type="image/png">
 ```
 
-Please notice that if your URLs don't start with `https://`, `http://` or `/`,
+Please note that if your URLs don't start with `https://`, `http://` or `/`,
 they will be considered a static file inside a directory listed in
 [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path).
 
@@ -189,6 +200,5 @@ To contribute to this extension, please open an issue or make a pull request to
 the repository on GitHub.
 
 Additional dependencies for development are listed in the file
-`dev-requirements.txt` in the repository.
-Tests can be run with ``pytest -vv``.
-All Python code should be formatted with [Black](https://github.com/psf/black).
+`dev-requirements.txt` in the repository. Use ``pytest -vv`` to run tests. All
+Python code should be formatted with [Black](https://github.com/psf/black).
