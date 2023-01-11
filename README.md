@@ -37,12 +37,12 @@ There are two ways to include favicon files in your configuration:
   static favicon file(s) inside a directory listed in [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path). If you use a relative path, use the `"static-file"` parameter. See below for
   examples.
 
-To configure sphinx-favicon, first add `"sphinx-favicon"` to the list of
+To configure sphinx-favicon, first add `"sphinx_favicon"` to the list of
 extensions:
 
 ```python
 extensions = [
-    "sphinx-favicon",
+    "sphinx_favicon",
 ]
 ```
 
