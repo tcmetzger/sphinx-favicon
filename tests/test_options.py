@@ -1,3 +1,5 @@
+"""Test suit for the sphinx-favicon extention."""
+
 from itertools import chain
 from pathlib import Path
 
@@ -6,7 +8,11 @@ import pytest
 
 @pytest.mark.sphinx("html", testroot="list_of_three_dicts")
 def test_list_of_three_dicts(favicon_tags):
+    """Run tests on a list of 3 dicts.
 
+    Args:
+        favicon_tags: Favicon tags in index.html page.
+    """
     # this test should have 3 favicons
     assert len(favicon_tags) == 3
 
@@ -29,7 +35,11 @@ def test_list_of_three_dicts(favicon_tags):
 
 @pytest.mark.sphinx("html", testroot="list_of_three_dicts_automated_values")
 def test_list_of_three_dicts_automated_values(favicon_tags):
+    """Run tests on a list of 3 dicts with automated values.
 
+    Args:
+        favicon_tags: Favicon tags in index.html page.
+    """
     # this test should have 3 favicons
     assert len(favicon_tags) == 3
 
@@ -52,7 +62,11 @@ def test_list_of_three_dicts_automated_values(favicon_tags):
 
 @pytest.mark.sphinx("html", testroot="single_dict")
 def test_single_dict(favicon_tags):
+    """Run tests on a single dict.
 
+    Args:
+        favicon_tags: Favicon tags in index.html page.
+    """
     # this test should have 1 favicon
     assert len(favicon_tags) == 1
 
@@ -68,7 +82,11 @@ def test_single_dict(favicon_tags):
 
 @pytest.mark.sphinx("html", testroot="list_of_urls")
 def test_list_of_urls(favicon_tags):
+    """Run tests on a list of urls.
 
+    Args:
+        favicon_tags: Favicon tags in index.html page.
+    """
     # this test should have 3 favicons
     assert len(favicon_tags) == 3
 
@@ -89,7 +107,13 @@ def test_list_of_urls(favicon_tags):
 
 @pytest.mark.sphinx("html", testroot="static_files")
 def test_static_files(app, favicon_tags, favicon_tags_for_nested):
+    """Run tests using static files.
 
+    Args:
+        app: the Sphinx application
+        favicon_tags: Favicon tags in index.html page.
+        favicon_tags_for_nested: Favicon tags in nested/page.html page.
+    """
     # this test should have 2 favicons
     assert len(favicon_tags) == 2
 
@@ -114,7 +138,13 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
 
 @pytest.mark.sphinx("html", testroot="href_and_static")
 def test_href_and_static(app, favicon_tags, favicon_tags_for_nested):
+    """Run tests on a mix of static files and complete urls.
 
+    Args:
+        app: the Sphinx application
+        favicon_tags: Favicon tags in index.html page.
+        favicon_tags_for_nested: Favicon tags in nested/page.html page.
+    """
     # this test should have 3 favicons
     assert len(favicon_tags) == 2
 

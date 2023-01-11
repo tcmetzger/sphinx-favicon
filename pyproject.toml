@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 fix = true
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = ["E501"]  # line too long | Black take care of it
-exclude = ["setup.py"]
+exclude = ["setup.py", "tests/roots/*"]
 
 [tool.ruff.flake8-quotes]
 docstring-quotes = "double"
