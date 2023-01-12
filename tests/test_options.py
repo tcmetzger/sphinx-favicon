@@ -2,8 +2,6 @@ from itertools import chain
 from pathlib import Path
 
 import pytest
-import conftest
-
 
 @pytest.mark.sphinx("html", testroot="list_of_three_dicts")
 def test_list_of_three_dicts(favicon_tags):
