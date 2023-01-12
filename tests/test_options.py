@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+
 @pytest.mark.sphinx("html", testroot="list_of_three_dicts")
 def test_list_of_three_dicts(favicon_tags):
 
