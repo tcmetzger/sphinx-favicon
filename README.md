@@ -1,5 +1,10 @@
 # sphinx-favicon
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/pypi/v/sphinx-favicon?logo=python&logoColor=white)](https://pypi.org/project/sphinx-favicon/)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
+
 **A Sphinx extension to add custom favicons**
 
 With sphinx-favicon, you can add custom favicons to your Sphinx html
@@ -200,5 +205,10 @@ To contribute to this extension, please open an issue or make a pull request to
 the repository on GitHub.
 
 Additional dependencies for development are listed in the file
-`dev-requirements.txt` in the repository. Use ``pytest -vv`` to run tests. All
-Python code should be formatted with [Black](https://github.com/psf/black).
+`dev-requirements.txt` in the repository. Use ``pytest -vv`` to run tests.
+
+Please install `pre-commit` Python package and run the following command before commiting your modifications:
+
+```
+pre-commit install
+```

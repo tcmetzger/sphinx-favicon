@@ -1,3 +1,12 @@
+"""Sphinx extension to add custom favicons.
+
+With sphinx-favicon, you can add custom favicons to your Sphinx html documentation quickly and easily.
+
+You can define favicons directly in your conf.py, with different rel attributes such as "icon" or "apple-touch-icon" and any favicon size.
+
+The sphinx-favicon extension gives you more flexibility than the standard favicon.ico supported by Sphinx. It provides a quick and easy way to add the most important favicon formats for different browsers and devices.
+"""
+
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import docutils.nodes as nodes
@@ -37,10 +46,10 @@ def generate_meta(favicon: Dict[str, str]) -> str:
       SVG, or PNG files)
 
     Args:
-        favicon (Dict[str, str]): Favicon data
+        favicon: Favicon data
 
     Returns:
-        str: Favicon meta tag
+        Favicon meta tag
     """
     rel = favicon.get("rel", "icon")
     href = favicon["href"]
@@ -66,10 +75,17 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
 
 def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
-    """If a ``static-file`` is provided, returns a modified version of the icon
-    attributes replacing ``static-file`` with the correct ``href``.
+    """Replace static ref to fully qualified href.
 
+    If a ``static-file`` is provided, returns a modified version of the icon attributes replacing ``static-file`` with the correct ``href``.
     If both ``static-file`` and ``href`` are provided, ``href`` will be ignored.
+
+    Args:
+        pathto: Sphinx helper_ function to handle relative URLs
+        favicon: The favicon description as set in the conf.py file
+
+    Returns:
+        The favicon with a fully qualified href
     """
     if FILE_FIELD in favicon:
         attrs = favicon.copy()
@@ -84,14 +100,14 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
     """Create ``<link>`` elements for favicons defined in configuration.
 
     Args:
-        pathto (Callable): Sphinx helper_ function to handle relative URLs
-        favicons (FaviconsDef): Favicon data from configuration.
-            Can be a single dict or a list of dicts.
+        pathto: Sphinx helper_ function to handle relative URLs
+        favicons: Favicon data from configuration. Can be a single dict or a list of dicts.
 
     Returns:
-        str: ``<link>`` elements for all favicons.
+        ``<link>`` elements for all favicons.
 
-    .. _helper: https://www.sphinx-doc.org/en/master/templating.html#patht
+    See Also:
+        https://www.sphinx-doc.org/en/master/templating.html#path
     """
     meta_favicons = ""
 
@@ -112,10 +128,8 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
             meta_favicons += generate_meta(attrs) + "\n"
     else:
         logger.warning(
-            """
-            Invalid config value for favicon extension. Custom favicons will not
-            be included in build.
-            """
+            "Invalid config value for favicon extension."
+            "Custom favicons will notbe included in build."
         )
         return None
 
@@ -129,7 +143,15 @@ def html_page_context(
     context: Dict[str, Any],
     doctree: nodes.document,
 ) -> None:
+    """Update the html page context by adding the favicons.
 
+    Args:
+        app: The sphinx application
+        pagename: the name of the page as string
+        templatename: the name of the template as string
+        context: the html context dictionnary
+        doctree: the docutils document tree
+    """
     if doctree and app.config["favicons"]:
         pathto: Callable = context["pathto"]  # should exist in a HTML context
         favicons_meta = create_favicons_meta(pathto, app.config["favicons"])
@@ -137,6 +159,14 @@ def html_page_context(
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
+    """Add custom configuration to shinx app.
+
+    Args:
+        app: the Sphinx application
+
+    Returns:
+        the 2 parralel parameters set to ``True``
+    """
     app.add_config_value("favicons", None, "html")
     app.connect("html-page-context", html_page_context)
 
