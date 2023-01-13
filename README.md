@@ -205,10 +205,9 @@ To contribute to this extension, please open an issue or make a pull request to
 the repository on GitHub.
 
 Additional dependencies for development are listed in the file
-`dev-requirements.txt` in the repository. Use ``pytest -vv`` to run tests.
+`dev-requirements.txt` in the repository.
+Run `pip install -r dev-requirements.txt` to set up your environment, followed
+by `pre-commit install`
+(using a virtual environment is recommended).
 
-Please install `pre-commit` Python package and run the following command before commiting your modifications:
-
-```
-pre-commit install
-```
+After installing the rev requirements, run ``pytest -vv`` to run tests.
