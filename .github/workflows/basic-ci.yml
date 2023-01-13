@@ -1,7 +1,10 @@
 name: Python lint and test
 
 on:
-  - push
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
 
