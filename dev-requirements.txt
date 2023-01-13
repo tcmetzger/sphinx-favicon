@@ -1,3 +1,4 @@
+-e .
 beautifulsoup4
 pre-commit
 pytest

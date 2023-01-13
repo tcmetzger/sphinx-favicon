@@ -209,8 +209,9 @@ the repository on GitHub.
 Additional dependencies for development are listed in the file
 `dev-requirements.txt` in the repository.
 Run `pip install -r dev-requirements.txt` to set up your environment, followed
-by `pre-commit install`
-(using a virtual environment is recommended).
+by `pre-commit install`.
+Using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is
+recommended.
 
 After installing the rev requirements, run ``pytest -vv`` to run tests.
 
@@ -219,6 +220,6 @@ After installing the rev requirements, run ``pytest -vv`` to run tests.
 The documentation uses [Sphinx](https://www.sphinx-doc.org/en/master/).
 
 To set up your environment to build the docs, run
-`pip install -r docs/requirements.txt`.
+`pip install -r docs-requirements.txt`.
 
 To build the docs locally, enter the directory `docs` and run `make html`.
