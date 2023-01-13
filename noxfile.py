@@ -9,6 +9,7 @@ def test(session):
     session.install(".[test]")
     session.run("pytest", "--color=yes", "tests")
 
+
 @nox.session(name="mypy", reuse_venv=True)
 def mypy(session):
     """Run the mypy evaluation of the lib."""
