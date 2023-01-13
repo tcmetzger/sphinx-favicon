@@ -26,7 +26,10 @@ release = version
 
 extensions = [
     "sphinx_rtd_theme",
+    "myst_parser",
 ]
+
+source_suffix = [".rst", ".md"]
 
 templates_path = ["_templates"]
 exclude_patterns = []
@@ -37,3 +40,9 @@ exclude_patterns = []
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+html_context = {
+    "display_github": True,
+    "github_user": "tcmetzger",
+    "github_repo": "sphinx-favicon",
+    "github_version": "main/docs/source/",
+}
