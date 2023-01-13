@@ -10,6 +10,7 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import docutils.nodes as nodes
+import imagesize
 from sphinx.application import Sphinx
 from sphinx.util import logging
 
@@ -62,12 +63,19 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     # default to "icon"
     favicon.setdefault("rel", "icon")
 
+    # get the size automatically
+    size = favicon.get("size")
+    extention = extention = favicon["href"].split(".")[-1]
+    if size is None and extention in SUPPORTED_MIME_TYPES.keys():
+        w, h = imagesize.get(favicon["href"])
+        size = f"{w}x{h}"
+    if size is not None:
+        favicon["size"] = size
+
     # set the type. if type is not set try to guess it from the file extention
     type_ = favicon.get("type")
-    if not type_:
-        extention = favicon["href"].split(".")[-1]
-        if extention in SUPPORTED_MIME_TYPES.keys():
-            type_ = SUPPORTED_MIME_TYPES[extention]
+    if type_ is None and extention in SUPPORTED_MIME_TYPES.keys():
+        type_ = SUPPORTED_MIME_TYPES[extention]
     if type_ is not None:
         favicon["type"] = type_
 
