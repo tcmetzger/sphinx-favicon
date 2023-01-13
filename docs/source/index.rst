@@ -7,7 +7,7 @@ Sphinx Favicon
 
 .. include:: ../../README.md
    :parser: myst_parser.sphinx_
-   :start-line: 7
+   :start-line: 8
 
 
 .. Indices and tables

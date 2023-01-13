@@ -4,6 +4,7 @@
 [![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI](https://img.shields.io/pypi/v/sphinx-favicon?logo=python&logoColor=white)](https://pypi.org/project/sphinx-favicon/)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
+[![Documentation Status](https://readthedocs.org/projects/sphinx-favicon/badge/?version=latest)](https://sphinx-favicon.readthedocs.io/en/latest/?badge=latest)
 
 **A Sphinx extension to add custom favicons**
 
