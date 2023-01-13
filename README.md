@@ -204,6 +204,8 @@ they will be considered a static file inside a directory listed in
 To contribute to this extension, please open an issue or make a pull request to
 the repository on GitHub.
 
+### Contributing to the codebase
+
 Additional dependencies for development are listed in the file
 `dev-requirements.txt` in the repository.
 Run `pip install -r dev-requirements.txt` to set up your environment, followed
@@ -211,3 +213,12 @@ by `pre-commit install`
 (using a virtual environment is recommended).
 
 After installing the rev requirements, run ``pytest -vv`` to run tests.
+
+### Contributing to the docs
+
+The documentation uses [Sphinx](https://www.sphinx-doc.org/en/master/).
+
+To set up your environment to build the docs, run
+`pip install -r docs/requirements.txt`.
+
+To build the docs locally, enter the directory `docs` and run `make html`.
