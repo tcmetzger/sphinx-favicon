@@ -49,19 +49,19 @@ def generate_meta(favicon: Dict[str, str]) -> str:
         favicon: Favicon data
 
     Returns:
-        Favicon meta tag
+        Favicon link or meta tag
     """
     rel = favicon.get("rel", "icon")
     href = favicon["href"]
     meta = f'    <link rel="{rel}" href="{href}"'
 
     # Read "sizes" from config. Omit sizes if not provided.
-    sizes = favicon.get("sizes", None)
+    sizes = favicon.get("sizes")
     if sizes:
         meta += f' sizes="{sizes}"'
 
     # Set MIME type. Detect MIME type if not provided. Omit "type=" if not detectable
-    favicon_type = favicon.get("type", None)
+    favicon_type = favicon.get("type")
     favicon_file_ending = href.split(".")[-1]
     if favicon_type:
         meta += f' type="{favicon_type}"'
