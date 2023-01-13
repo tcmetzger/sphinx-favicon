@@ -14,7 +14,7 @@ def mypy(session):
     """Run the mypy evaluation of the lib."""
     session.install(".")
     session.install("mypy")
-    test_files = session.posargs or ["sphinx-favicon"]
+    test_files = session.posargs or ["sphinx_favicon"]
     session.run(
         "mypy",
         "--ignore-missing-imports",
