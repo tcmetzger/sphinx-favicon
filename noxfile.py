@@ -23,3 +23,10 @@ def mypy(session):
         "--non-interactive",
         *test_files,
     )
+
+
+@nox.session(name="docs", reuse_venv=True)
+def docs(session):
+    """Build the docs."""
+    session.install(".[doc]")
+    session.run("sphinx-build", "-b=html", "docs/source", "docs/build/html")
