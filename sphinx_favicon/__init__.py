@@ -51,27 +51,31 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     Returns:
         Favicon link or meta tag
     """
-    rel = favicon.get("rel", "icon")
-    href = favicon["href"]
-    meta = f'    <link rel="{rel}" href="{href}"'
+    # get the tag of the output
+    tag = "link"
 
-    # Read "sizes" from config. Omit sizes if not provided.
-    sizes = favicon.get("sizes")
-    if sizes:
-        meta += f' sizes="{sizes}"'
+    # prepare all the tag parameters and leave them in the favicon dict
 
-    # Set MIME type. Detect MIME type if not provided. Omit "type=" if not detectable
-    favicon_type = favicon.get("type")
-    favicon_file_ending = href.split(".")[-1]
-    if favicon_type:
-        meta += f' type="{favicon_type}"'
-    elif favicon_file_ending in SUPPORTED_MIME_TYPES.keys():
-        favicon_type = SUPPORTED_MIME_TYPES[favicon_file_ending]
-        meta += f' type="{favicon_type}"'
+    # to raise an error if not set
+    favicon["href"]
 
-    meta += ">"
+    # default to "icon"
+    favicon.setdefault("rel", "icon")
 
-    return meta
+    # set the type. if type is not set try to guess it from the file extention
+    type_ = favicon.get("type")
+    if not type_:
+        extention = favicon["href"].split(".")[-1]
+        if extention in SUPPORTED_MIME_TYPES.keys():
+            type_ = SUPPORTED_MIME_TYPES[extention]
+    if type_ is not None:
+        favicon["type"] = type_
+
+    # build the html element
+    parameters = [f"{k}={v}" for k, v in favicon.items()]
+    html_element = f"    <{tag} {' '.join(parameters)}>"
+    print(html_element)
+    return html_element
 
 
 def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
