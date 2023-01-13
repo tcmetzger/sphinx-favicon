@@ -1,4 +1,4 @@
-# sphinx-favicon
+# Sphinx Favicon
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -7,7 +7,7 @@
 
 **A Sphinx extension to add custom favicons**
 
-With sphinx-favicon, you can add custom favicons to your Sphinx html
+With Sphinx Favicon, you can add custom favicons to your Sphinx html
 documentation quickly and easily.
 
 You can define favicons directly in your `conf.py`, with different `rel`
@@ -15,13 +15,13 @@ attributes such as [`"icon"`](https://html.spec.whatwg.org/multipage/links.html#
 or [`"apple-touch-icon"`](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) and
 any favicon size.
 
-The sphinx-favicon extension gives you more flexibility than the [standard
+The Sphinx Favicon extension gives you more flexibility than the [standard
 `favicon.ico` supported by Sphinx](https://www.sphinx-doc.org/en/master/templating.html?highlight=favicon#favicon_url). It provides a quick and easy way to add the most
 important favicon formats for different browsers and devices.
 
 ## Installation
 
-Use ``pip`` to install sphinx-favicon in your environment:
+Use ``pip`` to install Sphinx Favicon in your environment:
 
 ```sh
 pip install sphinx-favicon
@@ -29,7 +29,7 @@ pip install sphinx-favicon
 
 ## Usage
 
-After installing sphinx-favicon, you can configure the extension directly in
+After installing Sphinx Favicon, you can configure the extension directly in
 `conf.py` (see [Configuration](https://www.sphinx-doc.org/en/master/usage/configuration.html)
 in the Sphinx documentation for more information about this file).
 
@@ -42,7 +42,7 @@ There are two ways to include favicon files in your configuration:
   static favicon file(s) inside a directory listed in [Sphinx' `html_static_path`](https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path). If you use a relative path, use the `"static-file"` parameter. See below for
   examples.
 
-To configure sphinx-favicon, first add `"sphinx_favicon"` to the list of
+To configure Sphinx Favicon, first add `"sphinx_favicon"` to the list of
 extensions:
 
 ```python
@@ -114,14 +114,14 @@ information in the HTML `<head>` element:
 Note that the relative path to the favicon's image file in the static directory
 will be adjusted according to each html file's location.
 
-To make things easier for you, sphinx-favicon can also add *some* metadata to
+To make things easier for you, Sphinx Favicon can also add *some* metadata to
 each favicon's `<link>` element automatically:
 
-* If you don't provide the `"rel"` argument, sphinx-favicon automatically adds
+* If you don't provide the `"rel"` argument, Sphinx Favicon automatically adds
 `rel="icon"`.
-* if you don't provide the `"type"` argument, sphinx-favicon automatically
+* if you don't provide the `"type"` argument, Sphinx Favicon automatically
 determines the MIME type based on the image's filename extension.
-* Currently, sphinx-favicon is not able to automatically read a file's size in
+* Currently, Sphinx Favicon is not able to automatically read a file's size in
 pixels as required for the `"size"` argument. If you don't provide information
 about a favicon file's pixel size, the `"size"` argument will be omitted for
 that favicon image.
@@ -204,6 +204,8 @@ they will be considered a static file inside a directory listed in
 To contribute to this extension, please open an issue or make a pull request to
 the repository on GitHub.
 
+### Contributing to the codebase
+
 Additional dependencies for development are listed in the file
 `dev-requirements.txt` in the repository.
 Run `pip install -r dev-requirements.txt` to set up your environment, followed
@@ -211,3 +213,12 @@ by `pre-commit install`
 (using a virtual environment is recommended).
 
 After installing the rev requirements, run ``pytest -vv`` to run tests.
+
+### Contributing to the docs
+
+The documentation uses [Sphinx](https://www.sphinx-doc.org/en/master/).
+
+To set up your environment to build the docs, run
+`pip install -r docs/requirements.txt`.
+
+To build the docs locally, enter the directory `docs` and run `make html`.
