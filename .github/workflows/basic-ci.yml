@@ -31,5 +31,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install .[test]
+      - name: MyPy checks 
+        run: |
+          pip install mypy
+          mypy --ignore-missing-imports --install-types --non-interactive sphinx_favicon
       - name: Run Tests for ${{ matrix.python-version }}
         run: pytest --color=yes tests
