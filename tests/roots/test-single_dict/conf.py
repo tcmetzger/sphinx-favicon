@@ -1,4 +1,4 @@
-extensions = ["sphinx-favicon"]
+extensions = ["sphinx_favicon"]
 
 master_doc = "index"
 exclude_patterns = ["_build"]
