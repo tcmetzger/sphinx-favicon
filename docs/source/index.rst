@@ -3,19 +3,16 @@ Sphinx Favicon
 
 **A Sphinx extension to add custom favicons**
 
-With Sphinx Favicon, you can add custom favicons to your Sphinx html documentation quickly and easily.
+With **sphinx-favicon**, you can add custom favicons to your Sphinx html documentation quickly and easily.
 
-You can define favicons directly in your `conf.py`, with different `rel` attributes such as `"icon" <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or `"apple-touch-icon" <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__ and
-any favicon size.
+You can define favicons directly in your `conf.py`, with different `rel` attributes such as `"icon" <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or `"apple-touch-icon" <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__ and any favicon size.
 
-The Sphinx Favicon extension gives you more flexibility than the `standard
-"favicon.ico" supported by Sphinx <https://www.sphinx-doc.org/en/master/templating.html?highlight=favicon#favicon_url>`__. It provides a quick and easy way to add the most
-important favicon formats for different browsers and devices.
+The **sphinx-favicon** extension gives you more flexibility than the `standard "favicon.ico" supported by Sphinx <https://www.sphinx-doc.org/en/master/templating.html?highlight=favicon#favicon_url>`__. It provides a quick and easy way to add the most important favicon formats for different browsers and devices.
 
 Installation
 ------------
 
-Use :code:`pip` to install Sphinx Favicon in your environment:
+Use ``pip`` to install **sphinx-favicon** in your environment:
 
 .. code-block:: console
    
@@ -25,12 +22,12 @@ Use :code:`pip` to install Sphinx Favicon in your environment:
 Usage
 -----
 
-After installing Sphinx Favicon, you can configure the extension directly in `conf.py`. There are two ways to include favicon files in your configuration:
+After installing **sphinx-favicon**, you can configure the extension directly in `conf.py`. There are two ways to include favicon files in your configuration:
 
--   Use an **absolute URL** for a favicon file (beginning with :code:`http://` or :code:`https://`). If you use an absolute URL, use the :code:`href` parameter.
--   Use a **local static file** as a favicon. Make sure you place your local static favicon file(s) inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__. To use a relative path, use the :code:`static-file` parameter.
+-   Use an **absolute URL** for a favicon file (beginning with ``http://`` or ``https://``). If you use an absolute URL, use the ``href`` parameter.
+-   Use a **local static file** as a favicon. Make sure you place your local static favicon file(s) inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__. To use a relative path, use the ``static-file`` parameter.
 
-To configure Sphinx Favicon, first add :code:`sphinx_favicon` to the list of extensions:
+To configure **sphinx-favicon**, first add ``sphinx_favicon`` to the list of extensions:
 
 .. code-block:: python
 
@@ -46,12 +43,12 @@ Provide detailed metadata as a list of dicts
 
 Use a list of dicts for maximum control over the favicons added to your html document. You can use any parameters to define your favicon as long as they are interpreted by browsers. Some specific keyword will change the exported html content:
 
--   :code:`rel`: a value for the favicon's :code:`rel` attribute, usually either the standard `icon <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or a custom extension like `apple-touch-icon <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__.
--   :code:`sizes`: a value for the favicon's :code:`sizes` attribute as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__. It is computed on the fly using if not set.
--   :code:`type`: a value specifying the favicon's MIME type as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__. It is computed on the fly of not set.
--   :code:`href`: the **absolute URL** to the favicon's image file (not required if you use the :code:`static-file` parameter)
--   :code:`static-file`: the **local static file** corresponding to your icon's image. Please notice this path should be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually :code:`_static`). If you define both :code:`static-file` and :code:`href`, the value for :code:`href` will be ignored.
--   :code:`name`: a value for the favicon's :code:`name`. Usually set for microsoft app metadata. If set the tag will be set to :code:`meta`.
+-   ``rel``: a value for the favicon's ``rel`` attribute, usually either the standard `icon <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or a custom extension like `apple-touch-icon <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__.
+-   ``sizes``: a value for the favicon's ``sizes`` attribute as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__. It is computed on the fly using if not set.
+-   ``type``: a value specifying the favicon's MIME type as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__. It is computed on the fly of not set.
+-   ``href``: the **absolute URL** to the favicon's image file (not required if you use the ``static-file`` parameter)
+-   ``static-file``: the **local static file** corresponding to your icon's image. Please notice this path should be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually ``_static``). If you define both ``static-file`` and ``href``, the value for ``href`` will be ignored.
+-   ``name``: a value for the favicon's ``name``. Usually set for microsoft app metadata. If set the tag will be set to ``meta``.
 
 **Example**
 
@@ -96,11 +93,11 @@ Based on this configuration, Sphinx will include the following favicon informati
 
 Note that the relative path to the favicon's image file in the static directory will be adjusted according to each html file's location.
 
-To make things easier for you, Sphinx Favicon can also add *some* metadata to each favicon's `<link>` element automatically:
+To make things easier for you, **sphinx-favicon** can also add *some* metadata to each favicon's `<link>` element automatically:
 
--   If you don't provide the :code:`rel`` argument, Sphinx Favicon automatically adds :code:`rel="icon"` for :code:`link` tags.
--   if you don't provide the :code:`type` argument, Sphinx Favicon automatically determines the MIME type based on the image's filename extension.
--   If not provided, **sphinx-favicon** will compute the :code:`size` arguments automatically from the image provided in :code:`href`.
+-   If you don't provide the ``rel`` argument, **sphinx-favicon** automatically adds ``rel="icon"`` for ``link`` tags.
+-   if you don't provide the ``type`` argument, **sphinx-favicon** automatically determines the MIME type based on the image's filename extension.
+-   If not provided, **sphinx-favicon** will compute the ``size`` arguments automatically from the image provided in ``href``.
 
 Therefore, the following simplified configuration generates the exact same HTML result as above:
 
@@ -121,7 +118,7 @@ Therefore, the following simplified configuration generates the exact same HTML 
 Provide a single dict for just one favicon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to add just one custom favicon, you can also use a simple dict in :code:`conf.py`:
+If you want to add just one custom favicon, you can also use a simple dict in ``conf.py``:
 
 .. code-block:: python
 
@@ -131,7 +128,7 @@ If you want to add just one custom favicon, you can also use a simple dict in :c
       "href": "https://secure.example.com/favicon/apple-touch-icon-180x180.png",
    }
 
-Based on this configuration, Sphinx will include the following favicon information in the :code:`<head>` of every HTML file:
+Based on this configuration, Sphinx will include the following favicon information in the ``<head>`` of every HTML file:
 
 .. code-block:: html
    
@@ -140,7 +137,7 @@ Based on this configuration, Sphinx will include the following favicon informati
 Provide a list of local favicon files or URLs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The quickest way to add favicons is just adding a list of favicon URLs to :code:`conf.py`.
+The quickest way to add favicons is just adding a list of favicon URLs to ``conf.py``.
 
 .. code-block:: python
 
@@ -152,7 +149,7 @@ The quickest way to add favicons is just adding a list of favicon URLs to :code:
       "https://secure.example.com/favicon/apple-touch-icon-180x180.png",
    ]
 
-Based on this configuration, Sphinx will include the following favicon information in the HTML :code:`<head>` element:
+Based on this configuration, Sphinx will include the following favicon information in the HTML ``<head>`` element:
 
 .. code-block:: html
 
@@ -161,7 +158,7 @@ Based on this configuration, Sphinx will include the following favicon informati
    <link rel="icon" href="https://secure.example.com/favicon/favicon-32x32.png" type="image/png">
    <link rel="icon" href="https://secure.example.com/favicon/apple-touch-icon-180x180.png" type="image/png">
 
-Please note that if your URLs don't start with :code:`https://`, :code:`http://` or :code:`/`, they will be considered a static file inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__.
+Please note that if your URLs don't start with ``https://``, ``http://`` or ``/``, they will be considered a static file inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__.
 
 Contribute
 ----------
@@ -217,15 +214,15 @@ This will install the necessary dependencies to run pre-commit every time you ma
 Run nox automation
 ^^^^^^^^^^^^^^^^^^
 
-**sphinx-favicon** embed 4 automation process (called sessions) in :code:`noxfile.py`:
+**sphinx-favicon** embed 4 automation process (called sessions) in ``noxfile.py``:
 
--   :code:`mypy`: to perform a mypy check on the lib;
--   :code:`test`: to run the test with pytest;
--   :code:`docs`: to build the documentation in the :code:`build` folder;
--   :code:`pre-commit`: to run the pre-commits in an isolated environment
+-   ``mypy``: to perform a mypy check on the lib;
+-   ``test``: to run the test with pytest;
+-   ``docs``: to build the documentation in the ``build`` folder;
+-   ``lint``: to run the pre-commits in an isolated environment
 
 To run nox automation process navigate to the extention folder and run the following:
 
-.. code=block:: console
+.. code-block:: console
 
-   nox -s {session name}
+   nox -s {{session name}}
