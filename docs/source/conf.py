@@ -37,12 +37,12 @@ html_theme_options = {
         {
             "name": "GitHub",
             "url": "https://github.com/tcmetzger/sphinx-favicon",
-            "icon": "fa-brand fa-github",
+            "icon": "fa-brands fa-github",
         },
         {
             "name": "PyPi",
             "url": "https://pypi.org/project/sphinx-favicon/",
-            "icon": "fa-brand fa-python",
+            "icon": "fa-brands fa-python",
         },
     ],
     "logo": {"text": "project"},
