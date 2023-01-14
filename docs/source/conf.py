@@ -15,7 +15,7 @@ author = "Timo Metzger"
 release = version
 
 # -- General configuration -----------------------------------------------------
-extensions = ["myst_parser", "sphinx_favicon"]
+extensions = ["sphinx_favicon", "sphinx_copybutton"]
 source_suffix = [".rst", ".md"]
 templates_path = ["_templates"]
 exclude_patterns = ["Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
@@ -23,6 +23,7 @@ exclude_patterns = ["Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 # -- Options for HTML output ---------------------------------------------------
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 html_context = {
     "display_github": True,
     "github_user": "tcmetzger",

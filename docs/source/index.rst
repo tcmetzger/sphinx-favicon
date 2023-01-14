@@ -207,7 +207,7 @@ This will install the lib and 2 extra tools:
 
 Lastly activate the pre-commit hooks by running: 
 
-.. code-block:: 
+.. code-block:: console
 
       pre-commit install
 
