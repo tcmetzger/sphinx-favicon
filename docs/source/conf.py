@@ -45,7 +45,7 @@ html_theme_options = {
             "icon": "fa-brands fa-python",
         },
     ],
-    "logo": {"text": "project"},
+    "logo": {"text": project},
     "use_edit_page_button": True,
     # "announcement": "https://raw.githubusercontent.com/pydata/pydata-sphinx-theme/main/docs/_templates/custom-template.html",
 }
