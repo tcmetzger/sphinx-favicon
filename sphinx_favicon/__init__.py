@@ -91,7 +91,7 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     is_absolute = bool(urlparse(link).netloc) or link.startswith("/")
 
     # if the link is absolute do nothing, else replace it with a full one
-    if is_absolute:
+    if not is_absolute:
         path = f"{OUTPUT_STATIC_DIR}/{link}"
         favicon["href"] = pathto(path, resource=True)
 
