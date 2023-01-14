@@ -49,3 +49,35 @@ html_theme_options = {
     "use_edit_page_button": True,
     # "announcement": "https://raw.githubusercontent.com/pydata/pydata-sphinx-theme/main/docs/_templates/custom-template.html",
 }
+
+# -- Option for favicons -------------------------------------------------------
+
+favicons = [
+    {
+        "rel": "apple-touch-icon",
+        "size": "180x180",
+        "static-file": "apple-touch-icon.png",
+    },
+    {
+        "rel": "icon",
+        "type": "image/png",
+        "size": "32x32",
+        "static-file": "favicon-32x32.png",
+    },
+    {
+        "rel": "icon",
+        "type": "image/png",
+        "size": "16x16",
+        "static-file": "favicon-16x16.png",
+    },
+    {"rel": "manifest", "static-file": "site.webmanifest"},
+    {"rel": "mask-icon", "color": "#2d89ef", "static-file": "safari-pinned-tab.svg"},
+    # {
+    #    "name": "msapplication-TileColor",
+    #    "content": "#2d89ef",
+    # },
+    # {
+    #    "name": "theme-color",
+    #    "size": "#ffffff",
+    # },
+]
