@@ -6,6 +6,10 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
 [![Documentation Status](https://readthedocs.org/projects/sphinx-favicon/badge/?version=latest)](https://sphinx-favicon.readthedocs.io/en/latest/?badge=latest)
 
+> **Note**  
+> **Updating from v0.2 to v0.3.**  
+> When moving from v0.2 to v0.3 the name of the extention was changed. Please update the name used in the extention list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`.
+
 **A Sphinx extension to add custom favicons**
 
 With Sphinx Favicon, you can add custom favicons to your Sphinx html
