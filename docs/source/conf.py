@@ -47,7 +47,7 @@ html_theme_options = {
     ],
     "logo": {"text": project},
     "use_edit_page_button": True,
-    # "announcement": "https://raw.githubusercontent.com/pydata/pydata-sphinx-theme/main/docs/_templates/custom-template.html",
+    "announcement": "https://raw.githubusercontent.com/12rambau/sphinx-favicon/doc/docs/source/_static/announcement.html",
 }
 
 # -- Option for favicons -------------------------------------------------------
