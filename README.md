@@ -3,8 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI](https://img.shields.io/pypi/v/sphinx-favicon?logo=python&logoColor=white)](https://pypi.org/project/sphinx-favicon/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sphinx-favicon?color=orange&logo=python&logoColor=white)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
-[![Documentation Status](https://readthedocs.org/projects/sphinx-favicon/badge/?version=latest)](https://sphinx-favicon.readthedocs.io/en/latest/?badge=latest)
+![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)
 
 > **Note**  
 > **Updating from v0.2 to v0.3.**  
