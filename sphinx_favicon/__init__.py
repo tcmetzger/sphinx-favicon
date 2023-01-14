@@ -12,18 +12,12 @@ from urllib.parse import urlparse
 
 import docutils.nodes as nodes
 from sphinx.application import Sphinx
-from sphinx.util import logging
-
-logger = logging.getLogger(__name__)
 
 FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 
 OUTPUT_STATIC_DIR = "_static"
 FILE_FIELD = "static-file"
 """field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"""
-ABSOLUTE_HREF_STARTERS = ("https://", "http://", "/")
-# `/` points to a file relative to HTML's <base />, so it should be treated as
-# absolute
 
 SUPPORTED_MIME_TYPES = {
     "bmp": "image/x-ms-bmp",
@@ -90,11 +84,15 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     """
     # legacy check for "static-file"
     if FILE_FIELD in favicon:
-        favicon["href"] = favicon[FILE_FIELD]
+        favicon["href"] = favicon.pop(FILE_FIELD)
+
+    # check if link is absolute
+    link = favicon["href"]
+    is_absolute = bool(urlparse(link).netloc) or link.startswith("/")
 
     # if the link is absolute do nothing, else replace it with a full one
-    if not bool(urlparse(favicon["href"]).netloc):
-        path = f"{OUTPUT_STATIC_DIR}/{favicon['href']}"
+    if is_absolute:
+        path = f"{OUTPUT_STATIC_DIR}/{link}"
         favicon["href"] = pathto(path, resource=True)
 
     return favicon
@@ -113,7 +111,7 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
     See Also:
         https://www.sphinx-doc.org/en/master/templating.html#path
     """
-    # make the favicon config as a list
+    # force cast the favicon config as a list
     if isinstance(favicons, dict):
         favicons = [favicons]
 
