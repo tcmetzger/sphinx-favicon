@@ -12,6 +12,9 @@ from urllib.parse import urlparse
 
 import docutils.nodes as nodes
 from sphinx.application import Sphinx
+from sphinx.util import logging
+
+logger = logging.getLogger(__name__)
 
 FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 
@@ -124,6 +127,14 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
     for favicon in favicons:
         if isinstance(favicon, str):
             favicon = {"href": favicon}
+
+        if not isinstance(favicon, dict):
+            logger.warning(
+                f"Invalid config value for favicon extension: {favicon}."
+                "Custom favicons will not be included in build."
+            )
+            continue
+
         tag = generate_meta(_static_to_href(pathto, favicon))
         meta_favicons.append(tag)
 
