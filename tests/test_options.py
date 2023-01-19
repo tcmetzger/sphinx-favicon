@@ -115,7 +115,7 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
         favicon_tags_for_nested: Favicon tags in nested/page.html page.
     """
     # this test should have 2 favicons
-    assert len(favicon_tags) == 2
+    assert len(favicon_tags) == 3
 
     # all favicons should have rel, href, type, and sizes attributes
     for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
@@ -134,6 +134,7 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
     static = Path(app.outdir, "_static")
     assert (static / "square.svg").exists()
     assert (static / "nested/triangle.svg").exists()
+    assert (static / "circle.svg").exists()
 
 
 @pytest.mark.sphinx("html", testroot="href_and_static")
