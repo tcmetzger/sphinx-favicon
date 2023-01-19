@@ -25,7 +25,7 @@ Usage
 After installing **sphinx-favicon**, you can configure the extension directly in `conf.py`. There are two ways to include favicon files in your configuration:
 
 -   Use an **absolute URL** for a favicon file (beginning with ``http://`` or ``https://``).
--   Use a **local static file** as a favicon. Make sure you place your local static favicon file(s) inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__. To use a relative path, use the ``static-file`` parameter.
+-   Use a **local static file** as a favicon. Make sure you place your local static favicon file(s) inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__.
 
 To configure **sphinx-favicon**, first add ``sphinx_favicon`` to the list of extensions:
 
@@ -105,7 +105,7 @@ Therefore, the following simplified configuration generates the exact same HTML 
    html_static_path = ["_static"]
 
    favicons = [
-      {"static-file": "icon.svg"},  # => use `_static/icon.svg`
+      {"href": "icon.svg"},  # => use `_static/icon.svg`
       {"href": "https://secure.example.com/favicon/favicon-16x16.png"},
       {"href": "https://secure.example.com/favicon/favicon-32x32.png"},
       {

@@ -47,7 +47,7 @@ Then configure the favicon links using the `favicons` parameter (`html_static_pa
 html_static_path = ["_static"]
 
 favicons = [
-    {"static-file": "icon.svg"},  # => use `_static/icon.svg`
+    {"href": "icon.svg"},  # => use `_static/icon.svg`
     {"href": "https://secure.example.com/favicon/favicon-16x16.png"},
     {"href": "https://secure.example.com/favicon/favicon-32x32.png"},
     {
