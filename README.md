@@ -22,7 +22,7 @@ or [`"apple-touch-icon"`](https://developer.apple.com/library/archive/documentat
 any favicon size.
 
 The Sphinx Favicon extension gives you more flexibility than the [standard
-`favicon.ico` supported by Sphinx](https://www.sphinx-doc.org/en/master/templating.html?highlight=favicon#favicon_url). It provides a quick and easy way to add the most
+`favicon.ico` supported by Sphinx](https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_favicon). It provides a quick and easy way to add the most
 important favicon formats for different browsers and devices.
 
 ## Installation
@@ -35,7 +35,7 @@ pip install sphinx-favicon
 
 ## Usage
 
-After installing **sphinx-favicon** add it to your `conf.py` extention list:
+After installing **sphinx-favicon**, add it to your `conf.py` extension list:
 
 ```python
 extensions = ["sphinx_favicon"]
@@ -66,8 +66,11 @@ Based on this configuration, Sphinx will include the following favicon informati
 <link rel="apple-touch-icon" href="https://secure.example.com/favicon/apple-touch-icon-180x180.png" sizes="180x180" type="image/png">
 ```
 
-More customization is possible, please see our [documentation](https://sphinx-favicon.readthedocs.io/en/stable) for more information.
+For more details and more advanced usage, please see the
+[documentation](https://sphinx-favicon.readthedocs.io/en/stable).
 
 ## Contribution
 
-Contribution of any kind is welcome, see the [contribution](https://sphinx-favicon.readthedocs.io/en/stable#Contribute) section of our documntation for more information.
+Contributions of any kind are welcome. Please see the
+[contribution](https://sphinx-favicon.readthedocs.io/en/stable#Contribute) section of
+our documntation for more information.
