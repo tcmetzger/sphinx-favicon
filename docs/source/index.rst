@@ -24,7 +24,7 @@ Usage
 
 After installing **sphinx-favicon**, you can configure the extension directly in `conf.py`. There are two ways to include favicon files in your configuration:
 
--   Use an **absolute URL** for a favicon file (beginning with ``http://`` or ``https://``). If you use an absolute URL, use the ``href`` parameter.
+-   Use an **absolute URL** for a favicon file (beginning with ``http://`` or ``https://``).
 -   Use a **local static file** as a favicon. Make sure you place your local static favicon file(s) inside a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__. To use a relative path, use the ``static-file`` parameter.
 
 To configure **sphinx-favicon**, first add ``sphinx_favicon`` to the list of extensions:
@@ -46,20 +46,19 @@ Use a list of dicts for maximum control over the favicons added to your HTML doc
 -   ``rel``: a value for the favicon's ``rel`` attribute, usually either the standard `icon <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or a custom extension like `apple-touch-icon <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__.
 -   ``sizes``: a value for the favicon's ``sizes`` attribute as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__. It is computed on the fly if not set.
 -   ``type``: a value specifying the favicon's MIME type as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__. It is computed automatically if not set.
--   ``href``: the **absolute URL** to the favicon's image file (not required if you use the ``static-file`` parameter)
--   ``static-file``: the **local static file** to use as favicon. Please note that this path should be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually ``_static``). If you define both ``static-file`` and ``href``, the value for ``href`` will be ignored.
+-   ``href``: the image file to use as favicon. This can be either an **absolute URL** or a **local static file**. If you want to use a local static file, make sure that this path is be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually ``_static``).
 -   ``name``: a value for the favicon's ``name``. Usually set for microsoft app metadata. If set, the tag will be set to ``meta``.
 
 **Example**
 
 .. code-block:: python
    
-   html_static_path = ["_static"]  # html_static_path is required if you use the "static-file" parameter
+   html_static_path = ["_static"]  # html_static_path is required if you use a local static file with the href parameter
 
    favicons = [
       {
          "rel": "icon",
-         "static-file": "icon.svg",  # => use `_static/icon.svg`
+         "href": "icon.svg",  # => use `_static/icon.svg`
          "type": "image/svg+xml",
       },
       {
@@ -114,6 +113,11 @@ Therefore, the following simplified configuration generates the exact same HTML 
          "href": "https://secure.example.com/favicon/apple-touch-icon-180x180.png",
       },
    ]
+
+.. note::
+
+   For compatibility reasons, **sphinx-favicon** will also accept a static file path
+   with the ``static-file`` parameter instead of ``href``.
 
 Provide a single dict for just one favicon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
