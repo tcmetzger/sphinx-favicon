@@ -72,7 +72,6 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     # build the html element
     parameters = [f'{k}="{v}"' for k, v in favicon.items()]
     html_element = f"    <{tag} {' '.join(parameters)}>"
-    print(html_element)
     return html_element
 
 
