@@ -3,7 +3,7 @@ Sphinx Favicon
 
 **A Sphinx extension to add custom favicons**
 
-With **sphinx-favicon**, you can add custom favicons to your Sphinx html documentation quickly and easily.
+With **sphinx-favicon**, you can add custom favicons to your Sphinx HTML documentation quickly and easily.
 
 You can define favicons directly in your `conf.py`, with different `rel` attributes such as `"icon" <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or `"apple-touch-icon" <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__ and any favicon size.
 
@@ -41,14 +41,14 @@ Several options are then available to define favicons. They are listed in the fo
 Provide detailed metadata as a list of dicts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use a list of dicts for maximum control over the favicons added to your html document. You can use any parameters to define your favicon as long as they are interpreted by browsers. Some specific keyword will change the exported html content:
+Use a list of dicts for maximum control over the favicons added to your HTML document. You can use any parameters to define your favicon as long as they are interpreted by browsers. Some specific keywords will change the HTML content:
 
 -   ``rel``: a value for the favicon's ``rel`` attribute, usually either the standard `icon <https://html.spec.whatwg.org/multipage/links.html#rel-icon>`__ or a custom extension like `apple-touch-icon <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__.
--   ``sizes``: a value for the favicon's ``sizes`` attribute as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__. It is computed on the fly using if not set.
--   ``type``: a value specifying the favicon's MIME type as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__. It is computed on the fly of not set.
+-   ``sizes``: a value for the favicon's ``sizes`` attribute as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__. It is computed on the fly if not set.
+-   ``type``: a value specifying the favicon's MIME type as defined `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__. It is computed automatically if not set.
 -   ``href``: the **absolute URL** to the favicon's image file (not required if you use the ``static-file`` parameter)
--   ``static-file``: the **local static file** corresponding to your icon's image. Please notice this path should be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually ``_static``). If you define both ``static-file`` and ``href``, the value for ``href`` will be ignored.
--   ``name``: a value for the favicon's ``name``. Usually set for microsoft app metadata. If set the tag will be set to ``meta``.
+-   ``static-file``: the **local static file** to use as favicon. Please note that this path should be relative to a directory listed in `Sphinx "html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__ (usually ``_static``). If you define both ``static-file`` and ``href``, the value for ``href`` will be ignored.
+-   ``name``: a value for the favicon's ``name``. Usually set for microsoft app metadata. If set, the tag will be set to ``meta``.
 
 **Example**
 
@@ -97,7 +97,7 @@ To make things easier for you, **sphinx-favicon** can also add *some* metadata t
 
 -   If you don't provide the ``rel`` argument, **sphinx-favicon** automatically adds ``rel="icon"`` for ``link`` tags.
 -   if you don't provide the ``type`` argument, **sphinx-favicon** automatically determines the MIME type based on the image's filename extension.
--   If not provided, **sphinx-favicon** will compute the ``size`` arguments automatically from the image provided in ``href``.
+-   If not provided, **sphinx-favicon** will compute the ``sizes`` arguments automatically from the image provided in ``href``.
 
 Therefore, the following simplified configuration generates the exact same HTML result as above:
 
@@ -137,7 +137,7 @@ Based on this configuration, Sphinx will include the following favicon informati
 Provide a list of local favicon files or URLs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The quickest way to add favicons is just adding a list of favicon URLs to ``conf.py``.
+The quickest way to add favicons is to just add a list of favicon URLs to ``conf.py``.
 
 .. code-block:: python
 
@@ -163,6 +163,26 @@ Please note that if your URLs don't start with ``https://``, ``http://`` or ``/`
 Contribute
 ----------
 
+Thank you for your help improving **sphinx-favicon**!
+
+**sphinx-favicon** uses `nox <https://nox.thea.codes/en/stable/>`__ to automate several
+development-related tasks.
+Currently, the project uses four automation processes (called sessions) in ``noxfile.py``:
+
+-   ``mypy``: to perform a mypy check on the lib;
+-   ``test``: to run the test with pytest;
+-   ``docs``: to build the documentation in the ``build`` folder;
+-   ``lint``: to run the pre-commits in an isolated environment
+
+Every nox session is run in its own virtual environment, and the dependencies are
+installed automatically.
+
+To run a specific nox automation process, use the following command:
+
+.. code-block:: console
+
+   nox -s {{session name}}
+
 Workflow for contributing changes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -183,9 +203,9 @@ For each pull request, the documentation is built and deployed to make it easier
 Clone the repository
 ^^^^^^^^^^^^^^^^^^^^
 
-First off you’ll need your own copy of the **sphinx-favicon** codebase. You can clone it for local development like so:
+First off, you'll need your own copy of the **sphinx-favicon** codebase. You can clone it for local development like so:
 
-Fork the repository so you have your own copy on GitHub. See the `GitHub forking guide for more information <https://docs.github.com/en/get-started/quickstart/fork-a-repo>`__. Then, clone the repository locally so that you have a local copy to work from:
+Fork the repository so you have your own copy on GitHub. See the `GitHub forking guide for more information <https://docs.github.com/en/get-started/quickstart/fork-a-repo>`__. Then, clone the repository locally so that you have a local copy to work on:
 
 .. code-block:: console
 
@@ -198,31 +218,44 @@ Then install the development version of the extention:
 
    pip install -e .[dev]
 
-This will install the lib and 2 extra tools:
+This will install the sphinx-favicon library, together with two extra tools:
 -   `pre-commit <https://pre-commit.com>`__ for automatically enforcing code standards and quality checks before commits.
 -   `nox <https://nox.thea.codes/en/stable/>`__, for automating common development tasks.
 
-Lastly activate the pre-commit hooks by running: 
+Lastly, activate the pre-commit hooks by running:
 
 .. code-block:: console
 
       pre-commit install
 
-
 This will install the necessary dependencies to run pre-commit every time you make a commit with Git.
 
-Run nox automation
-^^^^^^^^^^^^^^^^^^
+Contribute to the codebase
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**sphinx-favicon** embed 4 automation process (called sessions) in ``noxfile.py``:
+Any larger updates to the codebase should include tests and documentation.
+The tests are located in the ``tests`` folder, and the documentation is located in the ``docs`` folder.
 
--   ``mypy``: to perform a mypy check on the lib;
--   ``test``: to run the test with pytest;
--   ``docs``: to build the documentation in the ``build`` folder;
--   ``lint``: to run the pre-commits in an isolated environment
-
-To run nox automation process navigate to the extention folder and run the following:
+To run the tests locally, use the following command:
 
 .. code-block:: console
 
-   nox -s {{session name}}
+      nox -s test
+
+See :ref:`below <contributing-docs>` for more information on how to update the documentation.
+
+.. _contributing-docs:
+
+Contribute to the docs
+^^^^^^^^^^^^^^^^^^^^^^
+
+The documentation is built using `Sphinx <https://www.sphinx-doc.org/en/master/>`__ and
+deployed to `Read the Docs <https://readthedocs.org/>`__.
+
+To build the documentation locally, use the following command:
+
+.. code-block:: console
+
+      nox -s docs
+
+
