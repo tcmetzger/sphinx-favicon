@@ -3,7 +3,7 @@
 import nox
 
 
-@nox.session(python=["3.7", "3.8", "3.9"], reuse_venv=True)
+@nox.session(reuse_venv=True)
 def test(session):
     """Apply the tests on the lib."""
     session.install(".[test]")
@@ -23,3 +23,17 @@ def mypy(session):
         "--non-interactive",
         *test_files,
     )
+
+
+@nox.session(name="docs", reuse_venv=True)
+def docs(session):
+    """Build the docs."""
+    session.install(".[doc]")
+    session.run("sphinx-build", "-b=html", "docs/source", "docs/build/html")
+
+
+@nox.session(reuse_venv=True)
+def lint(session):
+    """Run pre-commit linting checks."""
+    session.install(".[test]")
+    session.run("pre-commit", "run", "--all-files", external=True)
