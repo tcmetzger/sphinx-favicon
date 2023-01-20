@@ -61,6 +61,8 @@ favicons = [
     },
     {"size": "32x32", "href": "favicon-32x32.png"},
     {"size": "16x16", "href": "favicon-16x16.png"},
+    {"rel": "shortcut icon", "size": "192x192", "href": "android-chrome-192x192.png"},
+    {"rel": "shortcut icon", "href": "favicon.ico"},
     {"rel": "manifest", "href": "site.webmanifest"},
     {"rel": "mask-icon", "color": "#2d89ef", "href": "safari-pinned-tab.svg"},
     {"name": "msapplication-TileColor", "content": "#2d89ef"},
