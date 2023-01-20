@@ -1,6 +1,0 @@
--e .
-beautifulsoup4
-pre-commit
-pytest
-setuptools
-sphinx
