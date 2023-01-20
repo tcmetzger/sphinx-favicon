@@ -51,33 +51,19 @@ html_theme_options = {
 }
 
 # -- Option for favicons -------------------------------------------------------
-
+html_extra_path = ["browserconfig.xml"]
 favicons = [
     {
         "rel": "apple-touch-icon",
         "size": "180x180",
-        "static-file": "apple-touch-icon.png",
-    },
-    {
-        "rel": "icon",
         "type": "image/png",
-        "size": "32x32",
-        "static-file": "favicon-32x32.png",
+        "href": "apple-touch-icon.png",
     },
-    {
-        "rel": "icon",
-        "type": "image/png",
-        "size": "16x16",
-        "static-file": "favicon-16x16.png",
-    },
-    {"rel": "manifest", "static-file": "site.webmanifest"},
-    {"rel": "mask-icon", "color": "#2d89ef", "static-file": "safari-pinned-tab.svg"},
-    # {
-    #    "name": "msapplication-TileColor",
-    #    "content": "#2d89ef",
-    # },
-    # {
-    #    "name": "theme-color",
-    #    "size": "#ffffff",
-    # },
+    {"size": "32x32", "href": "favicon-32x32.png"},
+    {"size": "16x16", "href": "favicon-16x16.png"},
+    {"rel": "manifest", "href": "site.webmanifest"},
+    {"rel": "mask-icon", "color": "#2d89ef", "href": "safari-pinned-tab.svg"},
+    {"name": "msapplication-TileColor", "content": "#2d89ef"},
+    {"name": "theme-color", "size": "#ffffff"},
+    {"name": "msapplication-config", "content": "browserconfig.xml"},
 ]

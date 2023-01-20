@@ -54,16 +54,15 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
     # prepare all the tag parameters and leave them in the favicon dict
 
-    # to raise an error if not set
-    favicon["href"]
-
     # default to "icon" for link elements
     if tag == "link":
         favicon.setdefault("rel", "icon")
+        favicon["href"]  # to raise an error if not set
 
-    # set the type. if type is not set try to guess it from the file extention
+    # set the type for link elements.
+    # if type is not set try to guess it from the file extention
     type_ = favicon.get("type")
-    if not type_:
+    if not type_ and tag == "link":
         extention = favicon["href"].split(".")[-1]
         if extention in SUPPORTED_MIME_TYPES.keys():
             type_ = SUPPORTED_MIME_TYPES[extention]
