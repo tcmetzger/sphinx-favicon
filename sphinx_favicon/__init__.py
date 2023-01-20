@@ -81,6 +81,7 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
 
     if the ``href`` is a relative path then it's replaced with the correct ``href``. We keep checking for ``static-file`` for legacy reasons.
     If both ``static-file`` and ``href`` are provided, ``href`` will be ignored.
+    If the favicon has no ``href`` nor ``static-file`` then do nothing.
 
     Args:
         pathto: Sphinx helper_ function to handle relative URLs
@@ -89,6 +90,10 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     Returns:
         The favicon with a fully qualified href
     """
+    # exit if the favicon tag has no href (like meta)
+    if not (FILE_FIELD in favicon or "href" in favicon):
+        return favicon
+
     # legacy check for "static-file"
     if FILE_FIELD in favicon:
         favicon["href"] = favicon.pop(FILE_FIELD)
