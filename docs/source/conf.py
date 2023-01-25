@@ -62,7 +62,7 @@ favicons = [
     {"size": "16x16", "href": "favicon-16x16.png"},
     {"rel": "shortcut icon", "size": "any", "href": "favicon.ico"},
     # chrome specific
-    {"size": "192x192", "href": "_static/android-chrome-192x192.png"},
+    {"size": "192x192", "href": "android-chrome-192x192.png"},
     # apple icons
     {"rel": "mask-icon", "color": "#2d89ef", "href": "safari-pinned-tab.svg"},
     {"rel": "apple-touch-icon", "size": "180x180", "href": "apple-touch-icon.png"},
