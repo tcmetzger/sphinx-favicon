@@ -50,19 +50,19 @@ def generate_meta(favicon: Dict[str, str]) -> str:
         Favicon link or meta tag
     """
     # get the tag of the output
-    tag = "link"
+    tag = "meta" if "name" in favicon else "link"
 
     # prepare all the tag parameters and leave them in the favicon dict
 
-    # to raise an error if not set
-    favicon["href"]
+    # default to "icon" for link elements
+    if tag == "link":
+        favicon.setdefault("rel", "icon")
+        favicon["href"]  # to raise an error if not set
 
-    # default to "icon"
-    favicon.setdefault("rel", "icon")
-
-    # set the type. if type is not set try to guess it from the file extention
+    # set the type for link elements.
+    # if type is not set try to guess it from the file extention
     type_ = favicon.get("type")
-    if not type_:
+    if not type_ and tag == "link":
         extention = favicon["href"].split(".")[-1]
         if extention in SUPPORTED_MIME_TYPES.keys():
             type_ = SUPPORTED_MIME_TYPES[extention]
@@ -80,6 +80,7 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
 
     if the ``href`` is a relative path then it's replaced with the correct ``href``. We keep checking for ``static-file`` for legacy reasons.
     If both ``static-file`` and ``href`` are provided, ``href`` will be ignored.
+    If the favicon has no ``href`` nor ``static-file`` then do nothing.
 
     Args:
         pathto: Sphinx helper_ function to handle relative URLs
@@ -88,6 +89,10 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     Returns:
         The favicon with a fully qualified href
     """
+    # exit if the favicon tag has no href (like meta)
+    if not (FILE_FIELD in favicon or "href" in favicon):
+        return favicon
+
     # legacy check for "static-file"
     if FILE_FIELD in favicon:
         favicon["href"] = favicon.pop(FILE_FIELD)
