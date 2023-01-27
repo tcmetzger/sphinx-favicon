@@ -11,6 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
+import imagesize
 from sphinx.application import Sphinx
 from sphinx.util import logging
 
@@ -66,12 +67,22 @@ def generate_meta(favicon: Dict[str, str]) -> str:
         extention = favicon["href"].split(".")[-1]
         if extention in SUPPORTED_MIME_TYPES.keys():
             type_ = SUPPORTED_MIME_TYPES[extention]
-    if type_ is not None:
-        favicon["type"] = type_
+        if type_ is not None:
+            favicon["type"] = type_
+
+    # get the size automatically
+    size = favicon.get("size")
+    extention = extention = favicon["href"].split(".")[-1]
+    if size is None and extention in SUPPORTED_MIME_TYPES.keys():
+        w, h = imagesize.get(favicon["href"])
+        size = f"{w}x{h}"
+    if size is not None:
+        favicon["size"] = size
 
     # build the html element
     parameters = [f'{k}="{v}"' for k, v in favicon.items()]
     html_element = f"    <{tag} {' '.join(parameters)}>"
+
     return html_element
 
 
