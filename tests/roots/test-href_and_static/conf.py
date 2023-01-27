@@ -10,11 +10,11 @@ favicons = [
     {
         "sizes": "32x32",
         "static-file": "square.svg",
-        "href": "https://secure.example.com/favicon/favicon-32x32.png",
+        "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-32x32.png",
     },
     {
         "sizes": "128x128",
         "static-file": "nested/triangle.svg",
-        "href": "https://secure.example.com/favicon/apple-touch-icon-180x180.png",
+        "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/apple-touch-icon.png",
     },
 ]

@@ -9,12 +9,14 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 
 from io import BytesIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
 import imagesize
 import requests
+from requests.exceptions import RequestException
 from sphinx.application import Sphinx
 from sphinx.util import logging
 
@@ -22,11 +24,13 @@ logger = logging.getLogger(__name__)
 
 FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 
-OUTPUT_STATIC_DIR = "_static"
-FILE_FIELD = "static-file"
-"""field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"""
+OUTPUT_STATIC_DIR: str = "_static"
+"output folder for static items in the html builder"
 
-SUPPORTED_MIME_TYPES = {
+FILE_FIELD: str = "static-file"
+"field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"
+
+SUPPORTED_MIME_TYPES: Dict[str, str] = {
     "bmp": "image/x-ms-bmp",
     "gif": "image/gif",
     "ico": "image/x-icon",
@@ -35,6 +39,11 @@ SUPPORTED_MIME_TYPES = {
     "png": "image/png",
     "svg": "image/svg+xml",
 }
+"suported mime types of the link tag"
+
+
+SUPPORTED_SIZE_TYPES: List[str] = ["bmp", "gif", "jpeg", "jpg", "png"]
+"list of file type taht can be used to compute size"
 
 
 def generate_meta(favicon: Dict[str, str]) -> str:
@@ -65,7 +74,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     # set the type for link elements.
     # if type is not set try to guess it from the file extention
     type_ = favicon.get("type")
-    if not type_ and tag == "link" and extention in SUPPORTED_MIME_TYPES.keys():
+    if not type_ and tag == "link" and extention in SUPPORTED_MIME_TYPES:
         type_ = SUPPORTED_MIME_TYPES[extention]
         favicon["type"] = type_
 
@@ -102,14 +111,18 @@ def _size(
     size: Optional[str] = favicon.get("size")
 
     # get the size automatically if needed
-    if link and size is None and extention in SUPPORTED_MIME_TYPES.keys():
+    if link and size is None and extention in SUPPORTED_SIZE_TYPES:
         file: Optional[Union[BytesIO, Path]] = None
         if bool(urlparse(link).netloc):
-            response = requests.get(link)
+            try:
+                response = requests.get(link)
+            except RequestException:
+                response = SimpleNamespace(status_code=-1)
+
             if response.status_code == 200:
                 file = BytesIO(response.content)
             else:
-                logger.warn(
+                logger.warning(
                     f"The provided link ({link}) cannot be read. "
                     "Size will not be computed."
                 )
@@ -120,7 +133,7 @@ def _size(
                     file = path
                     break
             if file is None:
-                logger.warn(
+                logger.warning(
                     f"The provided path ({link}) is not part of any of the static path. "
                     "Size will not be computed."
                 )
@@ -225,7 +238,7 @@ def html_page_context(
         doctree: the docutils document tree
     """
     # extract parameters from app
-    favicons: Dict[str, str] = app.config.get("favicons")
+    favicons: Optional[Dict[str, str]] = app.config["favicons"]
     pathto: Callable = context["pathto"]
     static_path: List[str] = app.config["html_static_path"]
     confdir: str = app.confdir
