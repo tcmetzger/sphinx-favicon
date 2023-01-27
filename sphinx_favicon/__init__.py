@@ -9,7 +9,6 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 
 from io import BytesIO
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
@@ -117,7 +116,8 @@ def _size(
             try:
                 response = requests.get(link)
             except RequestException:
-                response = SimpleNamespace(status_code=-1)
+                response = requests.Response()
+                response.status_code = -1
 
             if response.status_code == 200:
                 file = BytesIO(response.content)
