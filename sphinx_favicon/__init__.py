@@ -97,13 +97,13 @@ def _size(
         return favicon
 
     # init the parameters
-    link = favicon.get("href") or favicon.get(FILE_FIELD)
-    extention = link.split(".")[-1]
-    size = favicon.get("size")
+    link: Optional[str] = favicon.get("href") or favicon.get(FILE_FIELD)
+    extention: Optional[str] = link.split(".")[-1] if link else None
+    size: Optional[str] = favicon.get("size")
 
     # get the size automatically if needed
-    if size is None and extention in SUPPORTED_MIME_TYPES.keys():
-        file = None
+    if link and size is None and extention in SUPPORTED_MIME_TYPES.keys():
+        file: Optional[Union[BytesIO, Path]] = None
         if bool(urlparse(link).netloc):
             response = requests.get(link)
             if response.status_code == 200:
@@ -201,9 +201,8 @@ def create_favicons_meta(
                 "Custom favicons will not be included in build."
             )
             continue
-        tag = generate_meta(
-            _static_to_href(pathto, _size(favicon, static_path, confdir))
-        )
+        favicon = _size(favicon, static_path, confdir)
+        tag = generate_meta(_static_to_href(pathto, favicon))
         meta_favicons.append(tag)
 
     return "\n".join(meta_favicons)
@@ -225,16 +224,21 @@ def html_page_context(
         context: the html context dictionnary
         doctree: the docutils document tree
     """
-    if doctree and app.config["favicons"]:
-        pathto: Callable = context["pathto"]  # should exist in a HTML context
-        favicons_meta = create_favicons_meta(
-            pathto, app.config["favicons"], app.config["html_static_path"], app.confdir
-        )
-        context["metatags"] += favicons_meta
+    # extract parameters from app
+    favicons: Dict[str, str] = app.config.get("favicons")
+    pathto: Callable = context["pathto"]
+    static_path: List[str] = app.config["html_static_path"]
+    confdir: str = app.confdir
+
+    if not (doctree and favicons):
+        return
+
+    favicons_meta = create_favicons_meta(pathto, favicons, static_path, confdir)
+    context["metatags"] += favicons_meta
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
-    """Add custom configuration to shinx app.
+    """Add custom configuration to sphinx app.
 
     Args:
         app: the Sphinx application
