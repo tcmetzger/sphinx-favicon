@@ -15,4 +15,8 @@ favicons = [
         "sizes": "128x128",
         "static-file": "nested/triangle.svg",
     },
+    {
+        "sizes": "32x32",
+        "href": "circle.svg",
+    },
 ]

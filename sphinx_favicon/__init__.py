@@ -8,6 +8,7 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 """
 
 from typing import Any, Callable, Dict, List, Optional, Union
+from urllib.parse import urlparse
 
 import docutils.nodes as nodes
 import imagesize
@@ -21,9 +22,6 @@ FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 OUTPUT_STATIC_DIR = "_static"
 FILE_FIELD = "static-file"
 """field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"""
-ABSOLUTE_HREF_STARTERS = ("https://", "http://", "/")
-# `/` points to a file relative to HTML's <base />, so it should be treated as
-# absolute
 
 SUPPORTED_MIME_TYPES = {
     "bmp": "image/x-ms-bmp",
@@ -53,15 +51,24 @@ def generate_meta(favicon: Dict[str, str]) -> str:
         Favicon link or meta tag
     """
     # get the tag of the output
-    tag = "link"
+    tag = "meta" if "name" in favicon else "link"
 
     # prepare all the tag parameters and leave them in the favicon dict
 
-    # to raise an error if not set
-    favicon["href"]
+    # default to "icon" for link elements
+    if tag == "link":
+        favicon.setdefault("rel", "icon")
+        favicon["href"]  # to raise an error if not set
 
-    # default to "icon"
-    favicon.setdefault("rel", "icon")
+    # set the type for link elements.
+    # if type is not set try to guess it from the file extention
+    type_ = favicon.get("type")
+    if not type_ and tag == "link":
+        extention = favicon["href"].split(".")[-1]
+        if extention in SUPPORTED_MIME_TYPES.keys():
+            type_ = SUPPORTED_MIME_TYPES[extention]
+        if type_ is not None:
+            favicon["type"] = type_
 
     # get the size automatically
     size = favicon.get("size")
@@ -72,25 +79,19 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     if size is not None:
         favicon["size"] = size
 
-    # set the type. if type is not set try to guess it from the file extention
-    type_ = favicon.get("type")
-    if type_ is None and extention in SUPPORTED_MIME_TYPES.keys():
-        type_ = SUPPORTED_MIME_TYPES[extention]
-    if type_ is not None:
-        favicon["type"] = type_
-
     # build the html element
-    parameters = [f"{k}={v}" for k, v in favicon.items()]
+    parameters = [f'{k}="{v}"' for k, v in favicon.items()]
     html_element = f"    <{tag} {' '.join(parameters)}>"
-    print(html_element)
+
     return html_element
 
 
 def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
     """Replace static ref to fully qualified href.
 
-    If a ``static-file`` is provided, returns a modified version of the icon attributes replacing ``static-file`` with the correct ``href``.
+    if the ``href`` is a relative path then it's replaced with the correct ``href``. We keep checking for ``static-file`` for legacy reasons.
     If both ``static-file`` and ``href`` are provided, ``href`` will be ignored.
+    If the favicon has no ``href`` nor ``static-file`` then do nothing.
 
     Args:
         pathto: Sphinx helper_ function to handle relative URLs
@@ -99,12 +100,23 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     Returns:
         The favicon with a fully qualified href
     """
+    # exit if the favicon tag has no href (like meta)
+    if not (FILE_FIELD in favicon or "href" in favicon):
+        return favicon
+
+    # legacy check for "static-file"
     if FILE_FIELD in favicon:
-        attrs = favicon.copy()
-        attrs["href"] = pathto(
-            f"{OUTPUT_STATIC_DIR}/{attrs.pop(FILE_FIELD)}", resource=True
-        )
-        return attrs
+        favicon["href"] = favicon.pop(FILE_FIELD)
+
+    # check if link is absolute
+    link = favicon["href"]
+    is_absolute = bool(urlparse(link).netloc) or link.startswith("/")
+
+    # if the link is absolute do nothing, else replace it with a full one
+    if not is_absolute:
+        path = f"{OUTPUT_STATIC_DIR}/{link}"
+        favicon["href"] = pathto(path, resource=True)
+
     return favicon
 
 
@@ -121,31 +133,27 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
     See Also:
         https://www.sphinx-doc.org/en/master/templating.html#path
     """
-    meta_favicons = ""
-
-    # generate meta for favicon dict
+    # force cast the favicon config as a list
     if isinstance(favicons, dict):
-        meta_favicons += generate_meta(_static_to_href(pathto, favicons))
-    # generate meta for list of favicon dicts
-    elif isinstance(favicons, list) and isinstance(favicons[0], dict):
-        for favicon in favicons:
-            meta_favicons += generate_meta(_static_to_href(pathto, favicon)) + "\n"
-    # generate meta for list of favicon URLs
-    elif isinstance(favicons, list):
-        for favicon in favicons:
-            if any(favicon.startswith(x) for x in ABSOLUTE_HREF_STARTERS):
-                attrs = {"href": favicon}
-            else:
-                attrs = _static_to_href(pathto, {FILE_FIELD: favicon})
-            meta_favicons += generate_meta(attrs) + "\n"
-    else:
-        logger.warning(
-            "Invalid config value for favicon extension."
-            "Custom favicons will notbe included in build."
-        )
-        return None
+        favicons = [favicons]
 
-    return meta_favicons
+    # read this list and create the links for each item
+    meta_favicons = []
+    for favicon in favicons:
+        if isinstance(favicon, str):
+            favicon = {"href": favicon}
+
+        if not isinstance(favicon, dict):
+            logger.warning(
+                f"Invalid config value for favicon extension: {favicon}."
+                "Custom favicons will not be included in build."
+            )
+            continue
+
+        tag = generate_meta(_static_to_href(pathto, favicon))
+        meta_favicons.append(tag)
+
+    return "\n".join(meta_favicons)
 
 
 def html_page_context(
