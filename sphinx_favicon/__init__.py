@@ -50,7 +50,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
     Default behavior:
     - If favicon data contains no ``rel`` attribute, sets ``rel="icon"``
-    - If no ``size`` attribute is provided, ``size`` will be omitted
+    - If no ``sizes`` attribute is provided, ``sizes`` will be computed from the file
     - If no favicon MIME type is provided, the value for ``type`` will be
       based on the favicon's file name extension (for BMP, GIF, ICO, JPG, JPEG,
       SVG, or PNG files)
@@ -84,7 +84,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     return html_element
 
 
-def _size(
+def _sizes(
     favicon: Dict[str, str], static_path: List[str], confdir: str
 ) -> Dict[str, str]:
     """Compute the size of the favicon if its size is not explicitly defined.
@@ -107,10 +107,10 @@ def _size(
     # init the parameters
     link: Optional[str] = favicon.get("href") or favicon.get(FILE_FIELD)
     extension: Optional[str] = link.split(".")[-1] if link else None
-    size: Optional[str] = favicon.get("size")
+    sizes: Optional[str] = favicon.get("sizes")
 
     # get the size automatically if not supplied
-    if link and size is None and extension in SUPPORTED_SIZE_TYPES:
+    if link and sizes is None and extension in SUPPORTED_SIZE_TYPES:
         file: Optional[Union[BytesIO, Path]] = None
         if bool(urlparse(link).netloc):
             try:
@@ -142,7 +142,7 @@ def _size(
         if file is not None:
             w, h = imagesize.get(file)
             size = f"{int(w)}x{int(h)}"
-            favicon["size"] = size
+            favicon["sizes"] = size
 
     return favicon
 
@@ -214,7 +214,7 @@ def create_favicons_meta(
                 "Custom favicons will not be included in build."
             )
             continue
-        favicon = _size(favicon, static_path, confdir)
+        favicon = _sizes(favicon, static_path, confdir)
         tag = generate_meta(_static_to_href(pathto, favicon))
         meta_favicons.append(tag)
 
