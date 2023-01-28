@@ -4,17 +4,15 @@ master_doc = "index"
 exclude_patterns = ["_build"]
 
 html_theme = "basic"
-html_static_path = ["gfx"]
 
 favicons = [
+    "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-16x16.png",
     {
-        "sizes": "32x32",
-        "static-file": "square.svg",
         "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-32x32.png",
     },
     {
-        "sizes": "128x128",
-        "static-file": "nested/triangle.svg",
+        "rel": "apple-touch-icon",
+        "sizes": "180x180",
         "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/apple-touch-icon.png",
     },
 ]

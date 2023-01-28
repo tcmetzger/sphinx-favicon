@@ -27,14 +27,14 @@ def test_list_of_three_dicts(favicon_tags):
     assert favicon_tags[0]["rel"] == ["icon"]
     assert (
         favicon_tags[0]["href"]
-        == "https://secure.example.com/favicon/favicon-16x16.png"
+        == "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-16x16.png"
     )
     assert favicon_tags[0]["type"] == "image/png"
     assert favicon_tags[0]["sizes"] == "16x16"
 
 
-@pytest.mark.sphinx("html", testroot="list_of_three_dicts_automated_values")
-def test_list_of_three_dicts_automated_values(favicon_tags):
+@pytest.mark.sphinx("html", testroot="list_of_three_icons_automated_values")
+def test_list_of_three_icons_automated_values(favicon_tags):
     """Run tests on a list of 3 dicts with automated values.
 
     Args:
@@ -54,7 +54,7 @@ def test_list_of_three_dicts_automated_values(favicon_tags):
     assert favicon_tags[0]["rel"] == ["icon"]
     assert (
         favicon_tags[0]["href"]
-        == "https://secure.example.com/favicon/favicon-16x16.png"
+        == "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-16x16.png"
     )
     assert favicon_tags[0]["type"] == "image/png"
     assert favicon_tags[0]["sizes"] == "16x16"
@@ -74,7 +74,7 @@ def test_single_dict(favicon_tags):
     assert favicon_tags[0]["rel"] == ["apple-touch-icon"]
     assert (
         favicon_tags[0]["href"]
-        == "https://secure.example.com/favicon/apple-touch-icon-180x180.png"
+        == "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/apple-touch-icon.png"
     )
     assert favicon_tags[0]["type"] == "image/png"
     assert favicon_tags[0]["sizes"] == "180x180"

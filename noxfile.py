@@ -7,7 +7,8 @@ import nox
 def test(session):
     """Apply the tests on the lib."""
     session.install(".[test]")
-    session.run("pytest", "--color=yes", "tests")
+    test_files = session.posargs or ["tests"]
+    session.run("pytest", "--color=yes", *test_files)
 
 
 @nox.session(name="mypy", reuse_venv=True)
@@ -29,7 +30,9 @@ def mypy(session):
 def docs(session):
     """Build the docs."""
     session.install(".[doc]")
-    session.run("sphinx-build", "-b=html", "docs/source", "docs/build/html")
+    session.run(
+        "sphinx-build", "-b=html", *session.posargs, "docs/source", "docs/build/html"
+    )
 
 
 @nox.session(reuse_venv=True)

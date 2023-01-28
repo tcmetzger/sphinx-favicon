@@ -7,10 +7,15 @@ You can define favicons directly in your conf.py, with different rel attributes 
 The sphinx-favicon extension gives you more flexibility than the standard favicon.ico supported by Sphinx. It provides a quick and easy way to add the most important favicon formats for different browsers and devices.
 """
 
+from io import BytesIO
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
+import imagesize
+import requests
+from requests.exceptions import RequestException
 from sphinx.application import Sphinx
 from sphinx.util import logging
 
@@ -18,11 +23,13 @@ logger = logging.getLogger(__name__)
 
 FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
 
-OUTPUT_STATIC_DIR = "_static"
-FILE_FIELD = "static-file"
-"""field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"""
+OUTPUT_STATIC_DIR: str = "_static"
+"output folder for static items in the html builder"
 
-SUPPORTED_MIME_TYPES = {
+FILE_FIELD: str = "static-file"
+"field in the ``FaviconsDef`` pointing to file in the ``html_static_path``"
+
+SUPPORTED_MIME_TYPES: Dict[str, str] = {
     "bmp": "image/x-ms-bmp",
     "gif": "image/gif",
     "ico": "image/x-icon",
@@ -31,6 +38,11 @@ SUPPORTED_MIME_TYPES = {
     "png": "image/png",
     "svg": "image/svg+xml",
 }
+"supported mime types of the link tag"
+
+
+SUPPORTED_SIZE_TYPES: List[str] = ["bmp", "gif", "jpeg", "jpg", "png"]
+"list of file type that can be used to compute size"
 
 
 def generate_meta(favicon: Dict[str, str]) -> str:
@@ -38,7 +50,7 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
     Default behavior:
     - If favicon data contains no ``rel`` attribute, sets ``rel="icon"``
-    - If no ``size`` attribute is provided, ``size`` will be omitted
+    - If no ``sizes`` attribute is provided, ``sizes`` will be computed from the file
     - If no favicon MIME type is provided, the value for ``type`` will be
       based on the favicon's file name extension (for BMP, GIF, ICO, JPG, JPEG,
       SVG, or PNG files)
@@ -52,27 +64,87 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     # get the tag of the output
     tag = "meta" if "name" in favicon else "link"
 
-    # prepare all the tag parameters and leave them in the favicon dict
-
     # default to "icon" for link elements
     if tag == "link":
         favicon.setdefault("rel", "icon")
         favicon["href"]  # to raise an error if not set
+        extension = favicon["href"].split(".")[-1]
 
     # set the type for link elements.
-    # if type is not set try to guess it from the file extention
+    # if type is not set, try to guess it from the file extension
     type_ = favicon.get("type")
-    if not type_ and tag == "link":
-        extention = favicon["href"].split(".")[-1]
-        if extention in SUPPORTED_MIME_TYPES.keys():
-            type_ = SUPPORTED_MIME_TYPES[extention]
-    if type_ is not None:
+    if not type_ and tag == "link" and extension in SUPPORTED_MIME_TYPES:
+        type_ = SUPPORTED_MIME_TYPES[extension]
         favicon["type"] = type_
 
     # build the html element
-    parameters = [f'{k}="{v}"' for k, v in favicon.items()]
+    parameters = [f'{k}="{v}"' for k, v in favicon.items() if v is not None]
     html_element = f"    <{tag} {' '.join(parameters)}>"
+
     return html_element
+
+
+def _sizes(
+    favicon: Dict[str, str], static_path: List[str], confdir: str
+) -> Dict[str, str]:
+    """Compute the size of the favicon if its size is not explicitly defined.
+
+    If the file is a SUPPORTED_MIME_TYPES, then the size is computed on the fly and added
+    to the favicon attributes. Don't do anything if the favicon is not a link tag.
+
+    Args:
+        favicon: The favicon description as set in the conf.py file
+        static_path: The static_path registered in the application
+        confdir: The source directory of the documentation
+
+    Returns:
+        The favicon with a fully qualified size
+    """
+    # exit if the favicon tag has no href (like meta)
+    if not (FILE_FIELD in favicon or "href" in favicon):
+        return favicon
+
+    # init the parameters
+    link: Optional[str] = favicon.get("href") or favicon.get(FILE_FIELD)
+    extension: Optional[str] = link.split(".")[-1] if link else None
+    sizes: Optional[str] = favicon.get("sizes")
+
+    # get the size automatically if not supplied
+    if link and sizes is None and extension in SUPPORTED_SIZE_TYPES:
+        file: Optional[Union[BytesIO, Path]] = None
+        if bool(urlparse(link).netloc):
+            try:
+                response = requests.get(link)
+            except RequestException:
+                response = requests.Response()
+                response.status_code = -1
+
+            if response.status_code == 200:
+                file = BytesIO(response.content)
+            else:
+                logger.warning(
+                    f"The provided link ({link}) cannot be read. "
+                    "Size will not be computed."
+                )
+        else:
+            for folder in static_path:
+                path = Path(confdir) / folder / link
+                if path.is_file():
+                    file = path
+                    break
+            if file is None:
+                logger.warning(
+                    f"The provided path ({link}) is not part of any of the static path. "
+                    "Size will not be computed."
+                )
+
+        # compute the image size if image file is found
+        if file is not None:
+            w, h = imagesize.get(file)
+            size = f"{int(w)}x{int(h)}"
+            favicon["sizes"] = size
+
+    return favicon
 
 
 def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
@@ -109,12 +181,16 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     return favicon
 
 
-def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[str]:
+def create_favicons_meta(
+    pathto: Callable, favicons: FaviconsDef, static_path: List[str], confdir: str
+) -> Optional[str]:
     """Create ``<link>`` elements for favicons defined in configuration.
 
     Args:
         pathto: Sphinx helper_ function to handle relative URLs
         favicons: Favicon data from configuration. Can be a single dict or a list of dicts.
+        static_path: the static_path registered in the application
+        confdir: the source directory of the documentation
 
     Returns:
         ``<link>`` elements for all favicons.
@@ -138,7 +214,7 @@ def create_favicons_meta(pathto: Callable, favicons: FaviconsDef) -> Optional[st
                 "Custom favicons will not be included in build."
             )
             continue
-
+        favicon = _sizes(favicon, static_path, confdir)
         tag = generate_meta(_static_to_href(pathto, favicon))
         meta_favicons.append(tag)
 
@@ -158,17 +234,24 @@ def html_page_context(
         app: The sphinx application
         pagename: the name of the page as string
         templatename: the name of the template as string
-        context: the html context dictionnary
+        context: the html context dictionary
         doctree: the docutils document tree
     """
-    if doctree and app.config["favicons"]:
-        pathto: Callable = context["pathto"]  # should exist in a HTML context
-        favicons_meta = create_favicons_meta(pathto, app.config["favicons"])
-        context["metatags"] += favicons_meta
+    # extract parameters from app
+    favicons: Optional[Dict[str, str]] = app.config["favicons"]
+    pathto: Callable = context["pathto"]
+    static_path: List[str] = app.config["html_static_path"]
+    confdir: str = app.confdir
+
+    if not (doctree and favicons):
+        return
+
+    favicons_meta = create_favicons_meta(pathto, favicons, static_path, confdir)
+    context["metatags"] += favicons_meta
 
 
 def setup(app: Sphinx) -> Dict[str, Any]:
-    """Add custom configuration to shinx app.
+    """Add custom configuration to sphinx app.
 
     Args:
         app: the Sphinx application
