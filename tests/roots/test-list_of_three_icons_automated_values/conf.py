@@ -6,12 +6,8 @@ exclude_patterns = ["_build"]
 html_theme = "basic"
 
 favicons = [
+    "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-16x16.png",
     {
-        "sizes": "16x16",
-        "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-16x16.png",
-    },
-    {
-        "sizes": "32x32",
         "href": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/favicon-32x32.png",
     },
     {

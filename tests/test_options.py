@@ -33,8 +33,8 @@ def test_list_of_three_dicts(favicon_tags):
     assert favicon_tags[0]["sizes"] == "16x16"
 
 
-@pytest.mark.sphinx("html", testroot="list_of_three_dicts_automated_values")
-def test_list_of_three_dicts_automated_values(favicon_tags):
+@pytest.mark.sphinx("html", testroot="list_of_three_icons_automated_values")
+def test_list_of_three_icons_automated_values(favicon_tags):
     """Run tests on a list of 3 dicts with automated values.
 
     Args:
