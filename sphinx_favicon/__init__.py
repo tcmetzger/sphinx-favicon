@@ -38,11 +38,11 @@ SUPPORTED_MIME_TYPES: Dict[str, str] = {
     "png": "image/png",
     "svg": "image/svg+xml",
 }
-"suported mime types of the link tag"
+"supported mime types of the link tag"
 
 
 SUPPORTED_SIZE_TYPES: List[str] = ["bmp", "gif", "jpeg", "jpg", "png"]
-"list of file type taht can be used to compute size"
+"list of file type that can be used to compute size"
 
 
 def generate_meta(favicon: Dict[str, str]) -> str:
@@ -68,13 +68,13 @@ def generate_meta(favicon: Dict[str, str]) -> str:
     if tag == "link":
         favicon.setdefault("rel", "icon")
         favicon["href"]  # to raise an error if not set
-        extention = favicon["href"].split(".")[-1]
+        extension = favicon["href"].split(".")[-1]
 
     # set the type for link elements.
-    # if type is not set try to guess it from the file extention
+    # if type is not set, try to guess it from the file extension
     type_ = favicon.get("type")
-    if not type_ and tag == "link" and extention in SUPPORTED_MIME_TYPES:
-        type_ = SUPPORTED_MIME_TYPES[extention]
+    if not type_ and tag == "link" and extension in SUPPORTED_MIME_TYPES:
+        type_ = SUPPORTED_MIME_TYPES[extension]
         favicon["type"] = type_
 
     # build the html element
@@ -87,15 +87,15 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 def _size(
     favicon: Dict[str, str], static_path: List[str], confdir: str
 ) -> Dict[str, str]:
-    """Compute the size of the favicon if needed.
+    """Compute the size of the favicon if its size is not explicitly defined.
 
     If the file is a SUPPORTED_MIME_TYPES, then the size is computed on the fly and added
-    to the favicon attributes. Don't do anything if the favicon is not a link tag
+    to the favicon attributes. Don't do anything if the favicon is not a link tag.
 
     Args:
         favicon: The favicon description as set in the conf.py file
-        static_path: the static_path registered in the application
-        confdir: the source directory of the documentation
+        static_path: The static_path registered in the application
+        confdir: The source directory of the documentation
 
     Returns:
         The favicon with a fully qualified size
@@ -106,11 +106,11 @@ def _size(
 
     # init the parameters
     link: Optional[str] = favicon.get("href") or favicon.get(FILE_FIELD)
-    extention: Optional[str] = link.split(".")[-1] if link else None
+    extension: Optional[str] = link.split(".")[-1] if link else None
     size: Optional[str] = favicon.get("size")
 
-    # get the size automatically if needed
-    if link and size is None and extention in SUPPORTED_SIZE_TYPES:
+    # get the size automatically if not supplied
+    if link and size is None and extension in SUPPORTED_SIZE_TYPES:
         file: Optional[Union[BytesIO, Path]] = None
         if bool(urlparse(link).netloc):
             try:
@@ -138,7 +138,7 @@ def _size(
                     "Size will not be computed."
                 )
 
-        # compute the image if a file have been set
+        # compute the image size if image file is found
         if file is not None:
             w, h = imagesize.get(file)
             size = f"{int(w)}x{int(h)}"
@@ -234,7 +234,7 @@ def html_page_context(
         app: The sphinx application
         pagename: the name of the page as string
         templatename: the name of the template as string
-        context: the html context dictionnary
+        context: the html context dictionary
         doctree: the docutils document tree
     """
     # extract parameters from app
