@@ -15,7 +15,7 @@ author = "Timo Metzger"
 release = version
 
 # -- General configuration -----------------------------------------------------
-extensions = ["sphinx_favicon", "sphinx_copybutton"]
+extensions = ["sphinx.ext.autosectionlabel", "sphinx_favicon", "sphinx_copybutton"]
 source_suffix = [".rst", ".md"]
 templates_path = ["_templates"]
 exclude_patterns = ["Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
