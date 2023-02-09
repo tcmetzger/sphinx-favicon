@@ -19,3 +19,8 @@ div.highlight-console pre span.go::before {
   margin-right: 0.5em;
   padding-right: 0.5em;
 }
+
+.card-header-gray {
+  background-color: #c2c2c2 !important;
+  font-weight: bold;
+}

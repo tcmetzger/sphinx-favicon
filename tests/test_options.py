@@ -1,4 +1,4 @@
-"""Test suit for the sphinx-favicon extention."""
+"""Test suite for the sphinx-favicon extension."""
 
 from itertools import chain
 from pathlib import Path

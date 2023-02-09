@@ -9,7 +9,7 @@
 
 > **Note**  
 > **Updating from v0.2 to v0.3.**  
-> When moving from v0.2 to v0.3 the name of the extention was changed. Please update the name used in the extention list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`.
+> When moving from v0.2 to v0.3 the name of the extension was changed. Please update the name used in the extension list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`.
 
 **A Sphinx extension to add custom favicons**
 

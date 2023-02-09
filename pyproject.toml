@@ -48,7 +48,7 @@ Download = "https://github.com/tcmetzger/sphinx-favicon/archive/v${metadata:vers
 [project.optional-dependencies]
 dev = ["pre-commit", "nox"]
 test = ["pytest", "beautifulsoup4"]
-doc = ["sphinx<6", "pydata-sphinx-theme", "sphinx-copybutton"]
+doc = ["sphinx<6", "pydata-sphinx-theme", "sphinx-copybutton", "sphinx-design"]
 
 [tool.setuptools]
 license-files = ["LICENSE"]
