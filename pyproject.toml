@@ -1,9 +1,57 @@
 [build-system]
-requires = [
-  "setuptools >= 40.9.0",
-  "wheel",
-]
+requires = ["setuptools >= 40.9.0","wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphinx-favicon"
+version = "0.2"
+description = "Sphinx Extension adding support for custom favicons"
+keywords = ["sphinx", "extension", "favicon", "meta html"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Environment :: Web Environment",
+    "Framework :: Sphinx :: Extension",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python",
+    "Topic :: Utilities",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Text Processing",
+]
+requires-python = ">=3.7"
+dependencies = ["sphinx>=3.4"]
+
+[[project.authors]]
+name = "Timo Cornelius Metzger"
+email = "coding@tcmetzger.net"
+
+[project.license]
+text = "MIT"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/tcmetzger/sphinx-favicon"
+Download = "https://github.com/tcmetzger/sphinx-favicon/archive/v${metadata:version}.tar.gz"
+
+[project.optional-dependencies]
+dev = ["pre-commit", "nox"]
+test = ["pytest", "beautifulsoup4"]
+doc = ["sphinx<6", "pydata-sphinx-theme", "sphinx-copybutton", "sphinx-design"]
+
+[tool.setuptools]
+license-files = ["LICENSE"]
 
 [tool.ruff]
 fix = true
