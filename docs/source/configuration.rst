@@ -86,12 +86,20 @@ The following attributes are the most commonly used ones:
 
 You can define favicon images with the ``href`` attribute in two ways:
 
-- Use an **absolute URL** for a favicon file. For example:
-   ``"href": "https://www.sphinx-doc.org/en/master/_static/favicon.svg"``.
-- Use a **local static file** as a favicon. Make sure you place your local static
-   favicon file(s) inside a directory listed in the Sphinx
-   `"html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__.
-   For example: ``"href": "favicon.svg"``.
+Use an **absolute URL** for a favicon file. For example:
+
+.. code-block:: python
+
+   "href": "https://www.sphinx-doc.org/en/master/_static/favicon.svg"
+
+Use a **local static file** as a favicon. Make sure you place your local static
+favicon file(s) inside a directory listed in the Sphinx
+`"html_static_path" <https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=static#confval-html_static_path>`__.
+For example:
+
+.. code-block:: python
+
+   "href": "favicon.svg"
 
 .. note:: 
 
@@ -103,7 +111,11 @@ You can define favicon images with the ``href`` attribute in two ways:
 Use the ``sizes`` attribute as defined
 `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes>`__.
 
-For example: ``"sizes": "16x16"``.
+For example:
+
+.. code-block:: python
+
+   "sizes": "16x16"
 
 **Sphinx Favicon** automatically computes a favicon's size if you don't provide a
 value for the ``sizes`` attribute (for BMP, GIF, JPEG, JPG and PNG files).
@@ -116,6 +128,12 @@ standard `"icon" and "shortcut icon" <https://html.spec.whatwg.org/multipage/lin
 or a custom relation like
 `"apple-touch-icon" <https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html>`__.
 
+For example:
+
+.. code-block:: python
+
+   "rel": "apple-touch-icon"
+
 If you don't provide a value for the ``rel`` attribute, **Sphinx Favicon** will
 automatically set ``rel="icon"``.
 
@@ -124,6 +142,12 @@ automatically set ``rel="icon"``.
 
 Use the ``type`` to define a favicon's MIME type as defined
 `here <https://html.spec.whatwg.org/multipage/semantics.html#attr-link-type>`__.
+
+For example:
+
+.. code-block:: python
+
+   "type": "image/svg+xml"
 
 If you don't provide a value for the ``rel`` attribute, **Sphinx Favicon** will
 automatically extract the MIME type from the provided image file  (for BMP, GIF, ICO,
@@ -140,13 +164,13 @@ If you use the ``name`` attribute, **Sphinx Favicon** will automatically set the
 
 For example:
 
-   .. code-block:: python
+.. code-block:: python
 
-      favicons = [
-         "mstile-150x150.png",
-         {"name": "msapplication-TileColor", "content": "#2d89ef"},
-         {"name": "theme-color", "content": "#ffffff"},
-      ]
+   favicons = [
+      "mstile-150x150.png",
+      {"name": "msapplication-TileColor", "content": "#2d89ef"},
+      {"name": "theme-color", "content": "#ffffff"},
+   ]
 
 This will generate the following HTML tags:
 
