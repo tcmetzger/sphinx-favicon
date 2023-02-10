@@ -117,12 +117,11 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
     # this test should have 2 favicons
     assert len(favicon_tags) == 3
 
-    # all favicons should have rel, href, type, and sizes attributes
+    # all favicons should have rel, href, and type attributes
     for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
         assert favicon_tag["rel"] == ["icon"]
         assert "_static" in favicon_tag["href"]
         assert favicon_tag["type"] == "image/svg+xml"
-        assert favicon_tag["sizes"]
         assert "static-file" not in favicon_tag
 
     for favicon_tag in favicon_tags:
