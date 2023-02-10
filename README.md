@@ -73,4 +73,4 @@ For more details and more advanced usage, please see the
 
 Contributions of any kind are welcome. Please see the
 [contribution](https://sphinx-favicon.readthedocs.io/en/stable#Contribute) section of
-our documntation for more information.
+our documentation for more information.
