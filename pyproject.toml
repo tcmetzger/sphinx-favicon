@@ -58,7 +58,7 @@ packages = ["sphinx_favicon"]
 fix = true
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = ["E501"]  # line too long | Black take care of it
-exclude = ["setup.py", "tests/roots/*"]
+exclude = ["setup.py", "tests/roots/*", "tests/__init__.py"]
 
 [tool.ruff.flake8-quotes]
 docstring-quotes = "double"
