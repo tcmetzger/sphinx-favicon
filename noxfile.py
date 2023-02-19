@@ -8,7 +8,13 @@ def test(session):
     """Apply the tests on the lib."""
     session.install(".[test]")
     test_files = session.posargs or ["tests"]
-    session.run("pytest", "--color=yes", *test_files)
+    session.run(
+        "pytest",
+        "--color=yes",
+        "--cov",
+        "--cov-report=html",
+        *test_files
+    )
 
 
 @nox.session(name="mypy", reuse_venv=True)
