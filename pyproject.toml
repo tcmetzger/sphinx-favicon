@@ -43,7 +43,6 @@ content-type = "text/markdown"
 
 [project.urls]
 Homepage = "https://github.com/tcmetzger/sphinx-favicon"
-Download = "https://github.com/tcmetzger/sphinx-favicon/archive/v${metadata:version}.tar.gz"
 
 [project.optional-dependencies]
 dev = ["pre-commit", "nox"]
