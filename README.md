@@ -67,10 +67,10 @@ Based on this configuration, Sphinx will include the following favicon informati
 ```
 
 For more details and more advanced usage, please see the
-[documentation](https://sphinx-favicon.readthedocs.io/en/stable).
+[documentation](https://sphinx-favicon.readthedocs.io).
 
 ## Contribution
 
 Contributions of any kind are welcome. Please see the
-[contribution](https://sphinx-favicon.readthedocs.io/en/stable#Contribute) section of
-our documentation for more information.
+[contribution](https://sphinx-favicon.readthedocs.io/en/latest/contribute.html) section
+of our documentation for more information.
