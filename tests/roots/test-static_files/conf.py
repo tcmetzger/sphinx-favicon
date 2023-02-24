@@ -9,14 +9,11 @@ html_static_path = ["gfx"]
 favicons = [
     {
         "sizes": "32x32",
-        "static-file": "square.svg",
+        "href": "square.svg",  # use href
     },
     {
         "sizes": "128x128",
-        "static-file": "nested/triangle.svg",
+        "static-file": "nested/triangle.svg",  # use outdated static-file
     },
-    {
-        "sizes": "32x32",
-        "href": "circle.svg",
-    },
+    "circle.svg",  # use nothing but filename
 ]

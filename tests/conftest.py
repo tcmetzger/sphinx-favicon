@@ -35,10 +35,22 @@ def _favicon_tags(content, page="index.html"):
     ]
 
 
+def _meta_tags(content, page):
+    """Link tags in a page content."""
+    c = (content.outdir / page).read_text()
+    return BeautifulSoup(c, "html.parser").find_all("meta")
+
+
 @pytest.fixture()
 def link_tags(content):
     """Link tags in index.html page."""
     return _link_tags(content, "index.html")
+
+
+@pytest.fixture()
+def meta_tags(content):
+    """Meta tags in index.html page."""
+    return _meta_tags(content, "index.html")
 
 
 @pytest.fixture()

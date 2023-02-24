@@ -117,12 +117,11 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
     # this test should have 2 favicons
     assert len(favicon_tags) == 3
 
-    # all favicons should have rel, href, type, and sizes attributes
+    # all favicons should have rel, href, and type attributes
     for favicon_tag in chain(favicon_tags, favicon_tags_for_nested):
         assert favicon_tag["rel"] == ["icon"]
         assert "_static" in favicon_tag["href"]
         assert favicon_tag["type"] == "image/svg+xml"
-        assert favicon_tag["sizes"]
         assert "static-file" not in favicon_tag
 
     for favicon_tag in favicon_tags:
@@ -167,3 +166,24 @@ def test_href_and_static(app, favicon_tags, favicon_tags_for_nested):
     static = Path(app.outdir, "_static")
     assert (static / "square.svg").exists()
     assert (static / "nested/triangle.svg").exists()
+
+
+@pytest.mark.sphinx("html", testroot="msapp_meta")
+def test_msapp_meta(favicon_tags, meta_tags):
+    """Run tests on a favicon configuration with meta.
+
+    Args:
+        favicon_tags: Favicon tags in index.html page.
+        meta_tags: Meta tags in index.html page.
+    """
+    # this test should have 1 link tag
+    assert len(favicon_tags) == 1
+
+    # get all values from meta tags and check for expected values
+    tag_values = []
+    for tag in meta_tags:
+        tag_values.extend(list(tag.attrs.values()))
+    assert "msapplication-TileColor" in tag_values
+    assert "#2d89ef" in tag_values
+    assert "theme-color" in tag_values
+    assert "#ffffff" in tag_values

@@ -47,20 +47,24 @@ Download = "https://github.com/tcmetzger/sphinx-favicon/archive/v${metadata:vers
 
 [project.optional-dependencies]
 dev = ["pre-commit", "nox"]
-test = ["pytest", "beautifulsoup4"]
+test = ["pytest", "beautifulsoup4", "pytest-cov"]
 doc = ["sphinx<6", "pydata-sphinx-theme", "sphinx-copybutton", "sphinx-design"]
 
 [tool.setuptools]
 license-files = ["LICENSE"]
+packages = ["sphinx_favicon"]
 
 [tool.ruff]
 fix = true
 select = ["E", "F", "W", "I", "D", "RUF"]
 ignore = ["E501"]  # line too long | Black take care of it
-exclude = ["setup.py", "tests/roots/*"]
+exclude = ["setup.py", "tests/roots/*", "tests/__init__.py"]
 
 [tool.ruff.flake8-quotes]
 docstring-quotes = "double"
 
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.coverage.run]
+source = ["sphinx_favicon"]
