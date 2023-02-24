@@ -67,7 +67,7 @@ Based on this configuration, Sphinx will include the following favicon informati
 ```
 
 For more details and more advanced usage, please see the
-[documentation](https://sphinx-favicon.readthedocs.io/en/latest/).
+[documentation](https://sphinx-favicon.readthedocs.io).
 
 ## Contribution
 
