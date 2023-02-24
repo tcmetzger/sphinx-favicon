@@ -72,5 +72,5 @@ For more details and more advanced usage, please see the
 ## Contribution
 
 Contributions of any kind are welcome. Please see the
-[contribution](https://sphinx-favicon.readthedocs.io/en/latest/contribute.html) section
-of our documentation for more information.
+[contribution](https://sphinx-favicon.readthedocs.io/en/latest/contribute.html) section of
+our documentation for more information.
