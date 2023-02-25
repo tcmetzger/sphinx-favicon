@@ -7,9 +7,9 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
 ![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)
 
-> **Note**  
-> **Updating from v0.2 to v0.3.**  
-> When moving from v0.2 to v0.3 the name of the extension was changed. Please update the name used in the extension list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`.
+> **Note**
+> **Updating from v0.2 to v1.0.**
+> When moving from v0.2 to v1.0 the name of the extension was changed. Please update the name used in the extension list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`.
 
 **A Sphinx extension to add custom favicons**
 
@@ -41,7 +41,7 @@ After installing **sphinx-favicon**, add it to your `conf.py` extension list:
 extensions = ["sphinx_favicon"]
 ```
 
-Then configure the favicon links using the `favicons` parameter (`html_static_path` is mandatory if you use relative path): 
+Then configure the favicon links using the `favicons` parameter (`html_static_path` is mandatory if you use relative path):
 
 ```python
 html_static_path = ["_static"]
