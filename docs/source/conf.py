@@ -52,7 +52,15 @@ html_theme_options = {
     ],
     "logo": {"text": project},
     "use_edit_page_button": True,
-    "announcement": "https://raw.githubusercontent.com/tcmetzger/sphinx-favicon/main/docs/source/_static/announcment.html",
+    "announcement": (
+        "<p>Between v0.2 and v1.0, the module name of the extension changed to better "
+        "conform with Python standards. Please update the name used in the extension "
+        'list of your <code class="docutils literal notranslate"><span class="pre">'
+        'conf.py</span></code> from <code class="docutils literal notranslate">'
+        '<span class="pre">sphinx-favicon</span></code> to '
+        '<code class="docutils literal notranslate"><span class="pre">'
+        "sphinx_favicon</span></code>!</p>"
+    ),
 }
 
 # -- Option for favicons -------------------------------------------------------
