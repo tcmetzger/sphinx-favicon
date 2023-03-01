@@ -7,8 +7,8 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
 ![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)
 
-> **Note:**
-> **Updating from v0.2 to v1.0.**
+> **Note: Updating from Version 0.2 to Version 1.0**
+>
 > Between v0.2 and v1.0, the module name of the extension changed to better conform with Python standards. Please update the name used in the extension list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`!
 
 **A Sphinx extension to add custom favicons**
