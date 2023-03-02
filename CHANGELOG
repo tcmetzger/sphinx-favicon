@@ -1,3 +1,11 @@
+# 2023-03-02, Release 1.0.1
+
+This is a bugfix for Release 1.0 and contains only one change.
+
+## What's Changed
+* fix: don't use relative path to _static output folder by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/46
+
+**Full Changelog**: https://github.com/tcmetzger/sphinx-favicon/compare/v1.0...v1.1
 # 2023-03-01, Release 1.0
 
 1.0 is the first major release of Sphinx Favicon. It 1.0 brings one **breaking change**:
