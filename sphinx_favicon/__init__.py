@@ -161,23 +161,27 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     Returns:
         The favicon with a fully qualified href
     """
+
+    # don't work directly on favicon files as it's a mutable dictionnary
+    loc_favicon = favicon.copy()
+
     # exit if the favicon tag has no href (like meta)
-    if not (FILE_FIELD in favicon or "href" in favicon):
-        return favicon
+    if not (FILE_FIELD in loc_favicon or "href" in loc_favicon):
+        return loc_favicon
 
     # legacy check for "static-file"
-    if FILE_FIELD in favicon:
-        favicon["href"] = favicon.pop(FILE_FIELD)
+    if FILE_FIELD in loc_favicon:
+        loc_favicon["href"] = loc_favicon.pop(FILE_FIELD)
 
     # check if link is absolute
-    link = favicon["href"]
+    link = loc_favicon["href"]
     is_absolute = bool(urlparse(link).netloc) or link.startswith("/")
 
     # if the link is absolute do nothing, else replace it with a full one
     if not is_absolute:
-        favicon["href"] = f"{OUTPUT_STATIC_DIR}/{Path(link).name}"
+        loc_favicon["href"] = f"{OUTPUT_STATIC_DIR}/{link}"
 
-    return favicon
+    return loc_favicon
 
 
 def create_favicons_meta(
