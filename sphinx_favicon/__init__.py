@@ -147,7 +147,7 @@ def _sizes(
     return favicon
 
 
-def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
+def _static_to_href(pathto: Callable, init_favicon: Dict[str, str]) -> Dict[str, str]:
     """Replace static ref to fully qualified href.
 
     if the ``href`` is a relative path then it's replaced with the correct ``href``. We keep checking for ``static-file`` for legacy reasons.
@@ -156,11 +156,14 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
 
     Args:
         pathto: Sphinx helper_ function to handle relative URLs
-        favicon: The favicon description as set in the conf.py file
+        init_favicon: The favicon description as set in the conf.py file
 
     Returns:
         The favicon with a fully qualified href
     """
+    # work on a copy of the favicon (mutable issue)
+    favicon = init_favicon.copy()
+
     # exit if the favicon tag has no href (like meta)
     if not (FILE_FIELD in favicon or "href" in favicon):
         return favicon
@@ -175,8 +178,7 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
 
     # if the link is absolute do nothing, else replace it with a full one
     if not is_absolute:
-        path = f"{OUTPUT_STATIC_DIR}/{link}"
-        favicon["href"] = pathto(path, resource=True)
+        favicon["href"] = pathto(f"{OUTPUT_STATIC_DIR}/{link}", resource=True)
 
     return favicon
 
