@@ -175,8 +175,7 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
 
     # if the link is absolute do nothing, else replace it with a full one
     if not is_absolute:
-        path = f"{OUTPUT_STATIC_DIR}/{link}"
-        favicon["href"] = pathto(path, resource=True)
+        favicon["href"] = f"{OUTPUT_STATIC_DIR}/{link}"
 
     return favicon
 
