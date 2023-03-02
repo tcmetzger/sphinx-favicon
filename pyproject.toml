@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-favicon"
-version = "1.0"
+version = "1.0.1"
 description = "Sphinx Extension adding support for custom favicons"
 keywords = ["sphinx", "extension", "favicon", "meta html"]
 classifiers = [
