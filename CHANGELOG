@@ -1,10 +1,60 @@
-2021-11-15    0.2:
-------------------
-  * enhancements:
-    - Add support for relative files (#2)
-    - Add basic tests (#3)
-    - Test on multiple os (#5)
+# 2023-03-01, Release 1.0
 
-2021-10-03    0.1:
-------------------
+1.0 is the first major release of Sphinx Favicon. It 1.0 brings one **breaking change**:
+To better conform with Python standards, the extension module name was changed from
+`sphinx-favicon` to `sphinx_favicon`.
+
+If you have used previous version of this extension, you need to update your `conf.py`
+file to use `sphinx_favicon` (instead of the old name, `sphinx-favicon`)
+
+Otherwise, your existing configuration should work without any changes.
+
+The 1.0 release contains lots of updates and new features, including
+[automatic detection of favicon pixel dimensions]
+(https://sphinx-favicon.readthedocs.io/en/latest/configuration.html#sizes-the-image-size),
+[basic support for additional favicon formats](https://sphinx-favicon.readthedocs.io/en/latest/configuration.html#name-specific-to-msapp-icons),
+and a new, [Sphinx-based documentation site at
+https://sphinx-favicon.readthedocs.io](https://sphinx-favicon.readthedocs.io).
+
+## What's Changed
+* change folder name by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/13
+* Use pre-commit to enforce linting by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/14
+* Update ci by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/17
+* Add sphinx docs by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/18
+* Update docs config by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/19
+* Mypy by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/20
+* authorize any parameter in the favicon dict by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/24
+* Delete .gitattributes by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/29
+* update documentation by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/27
+* refactor: Simplify favicon parsing by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/30
+* edit announcement link by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/31
+* Meta by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/25
+* compute size automatically if not set by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/26
+* resize mstile to 150x150 by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/33
+* use only pyproject.toml for build by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/34
+* refactor documentation by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/35
+* Fix typo by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/36
+* Update tests by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/37
+* fixed `documentation` and `contribution` broken links by @adityakode in https://github.com/tcmetzger/sphinx-favicon/pull/40
+* Docs updates by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/41
+* fix: remove download url by @12rambau in https://github.com/tcmetzger/sphinx-favicon/pull/42
+* Update docs for release by @tcmetzger in https://github.com/tcmetzger/sphinx-favicon/pull/43
+
+## New Contributors
+* @12rambau made their first contribution in https://github.com/tcmetzger/sphinx-favicon/pull/13
+* @adityakode made their first contribution in https://github.com/tcmetzger/sphinx-favicon/pull/40
+
+**Full Changelog**: https://github.com/tcmetzger/sphinx-favicon/compare/v0.2...v1.0
+
+# 2021-11-15, Release 0.2
+
+- Add support for relative files (#2)
+- Add basic tests (#3)
+- Test on multiple os (#5)
+
+## New Contributors
+* @abravalheri made their first contribution in https://github.com/tcmetzger/sphinx-favicon/pull/2
+
+# 2021-10-03, Release 0.1
+
 Initial release
