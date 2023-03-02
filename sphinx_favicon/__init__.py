@@ -9,7 +9,7 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
@@ -147,7 +147,7 @@ def _sizes(
     return favicon
 
 
-def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]:
+def _static_to_href(init_favicon: Dict[str, str]) -> Dict[str, str]:
     """Replace static ref to fully qualified href.
 
     if the ``href`` is a relative path then it's replaced with the correct ``href``. We keep checking for ``static-file`` for legacy reasons.
@@ -155,42 +155,39 @@ def _static_to_href(pathto: Callable, favicon: Dict[str, str]) -> Dict[str, str]
     If the favicon has no ``href`` nor ``static-file`` then do nothing.
 
     Args:
-        pathto: Sphinx helper_ function to handle relative URLs
-        favicon: The favicon description as set in the conf.py file
+        init_favicon: The favicon description as set in the conf.py file
 
     Returns:
         The favicon with a fully qualified href
     """
-
-    # don't work directly on favicon files as it's a mutable dictionnary
-    loc_favicon = favicon.copy()
+    # work on a copy of the favicon (mutable issue)
+    favicon = init_favicon.copy()
 
     # exit if the favicon tag has no href (like meta)
-    if not (FILE_FIELD in loc_favicon or "href" in loc_favicon):
-        return loc_favicon
+    if not (FILE_FIELD in favicon or "href" in favicon):
+        return favicon
 
     # legacy check for "static-file"
-    if FILE_FIELD in loc_favicon:
-        loc_favicon["href"] = loc_favicon.pop(FILE_FIELD)
+    if FILE_FIELD in favicon:
+        favicon["href"] = favicon.pop(FILE_FIELD)
 
     # check if link is absolute
-    link = loc_favicon["href"]
+    link = favicon["href"]
     is_absolute = bool(urlparse(link).netloc) or link.startswith("/")
 
     # if the link is absolute do nothing, else replace it with a full one
     if not is_absolute:
-        loc_favicon["href"] = f"{OUTPUT_STATIC_DIR}/{link}"
+        favicon["href"] = f"{OUTPUT_STATIC_DIR}/{link}"
 
-    return loc_favicon
+    return favicon
 
 
 def create_favicons_meta(
-    pathto: Callable, favicons: FaviconsDef, static_path: List[str], confdir: str
+    favicons: FaviconsDef, static_path: List[str], confdir: str
 ) -> Optional[str]:
     """Create ``<link>`` elements for favicons defined in configuration.
 
     Args:
-        pathto: Sphinx helper_ function to handle relative URLs
         favicons: Favicon data from configuration. Can be a single dict or a list of dicts.
         static_path: the static_path registered in the application
         confdir: the source directory of the documentation
@@ -218,7 +215,7 @@ def create_favicons_meta(
             )
             continue
         favicon = _sizes(favicon, static_path, confdir)
-        tag = generate_meta(_static_to_href(pathto, favicon))
+        tag = generate_meta(_static_to_href(favicon))
         meta_favicons.append(tag)
 
     return "\n".join(meta_favicons)
@@ -242,14 +239,13 @@ def html_page_context(
     """
     # extract parameters from app
     favicons: Optional[Dict[str, str]] = app.config["favicons"]
-    pathto: Callable = context["pathto"]
     static_path: List[str] = app.config["html_static_path"]
     confdir: str = app.confdir
 
     if not (doctree and favicons):
         return
 
-    favicons_meta = create_favicons_meta(pathto, favicons, static_path, confdir)
+    favicons_meta = create_favicons_meta(favicons, static_path, confdir)
     context["metatags"] += favicons_meta
 
 
