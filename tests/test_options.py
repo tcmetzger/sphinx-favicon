@@ -114,7 +114,13 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
         favicon_tags: Favicon tags in index.html page.
         favicon_tags_for_nested: Favicon tags in nested/page.html page.
     """
-    # this test should have 2 favicons
+    expected_urls = [
+        "_static/square.svg",
+        "_static/nested/triangle.svg",
+        "_static/circle.svg",
+    ]
+
+    # this test should have 3 favicons
     assert len(favicon_tags) == 3
 
     # all favicons should have rel, href, and type attributes
@@ -124,11 +130,13 @@ def test_static_files(app, favicon_tags, favicon_tags_for_nested):
         assert favicon_tag["type"] == "image/svg+xml"
         assert "static-file" not in favicon_tag
 
+    # check favicons in top level page (should be "_static/square.svg", etc.)
     for favicon_tag in favicon_tags:
-        assert favicon_tag["href"].startswith("_static")
+        assert favicon_tag["href"] in expected_urls
 
+    # check favicon URLS for pages in subfolders (should be "../_static/square.svg", etc.)
     for favicon_tag in favicon_tags_for_nested:
-        assert favicon_tag["href"].startswith("../_static")
+        assert favicon_tag["href"] in [f"../{url}" for url in expected_urls]
 
     static = Path(app.outdir, "_static")
     assert (static / "square.svg").exists()
