@@ -28,29 +28,26 @@ This documentation contains three sections:
    .. grid-item-card::
       :link: quickstart
       :link-type: ref
-      :class-header: card-header-gray
 
       Quickstart
       ^^^
-      ➡ Installation and basic usage
+      :fas:`square-caret-right;sd-text-primary` Installation and basic usage
 
    .. grid-item-card::
       :link: configuration
       :link-type: ref
-      :class-header: card-header-gray
 
       Configuration
       ^^^
-      ➡ Detailed information about all configuration options and examples
+      :fas:`square-caret-right;sd-text-primary` Detailed information about all configuration options and examples
 
    .. grid-item-card::
       :link: contribute
       :link-type: ref
-      :class-header: card-header-gray
 
       Contribute
       ^^^
-      ➡ Help improve Sphinx Favicon
+      :fas:`square-caret-right;sd-text-primary` Help improve Sphinx Favicon
 
 
 .. toctree::
