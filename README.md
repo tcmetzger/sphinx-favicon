@@ -3,9 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Black badge](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI](https://img.shields.io/pypi/v/sphinx-favicon?logo=python&logoColor=white)](https://pypi.org/project/sphinx-favicon/)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sphinx-favicon?color=orange&logo=python&logoColor=white)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)
-![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sphinx-favicon?color=blue&logo=python&logoColor=white)](https://pypi.org/project/sphinx-favicon/)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)](https://github.com/tcmetzger/sphinx-favicon/actions/workflows/basic-ci.yml)
+[![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)](https://readthedocs.org/projects/sphinx-favicon/)
 
 > **Note: Updating from Version 0.2 to Version 1.0**
 >
