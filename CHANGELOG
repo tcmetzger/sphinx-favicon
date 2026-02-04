@@ -1,3 +1,16 @@
+# 2026-02-04, Release 1.1.0
+
+Modernize package for Python 3.10–3.13 and Sphinx 8/9.
+
+## What's Changed
+* Add official support for Python 3.10, 3.11, 3.12, 3.13; drop 3.7–3.9 classifiers
+* Bump Sphinx dependency to >=8.1,<10 to ensure Python 3.13 compatibility (fixes imghdr removal)
+* Update tests to use `root_doc` instead of deprecated `master_doc`
+* Refresh CI: test matrix over Python 3.10–3.13 and Sphinx 8.1 / 9.1
+* Update documentation extras to build with modern Sphinx
+
+**Full Changelog**: https://github.com/tcmetzger/sphinx-favicon/compare/v1.0.1...v1.1.0
+
 # 2023-03-02, Release 1.0.1
 
 This is a bugfix for Release 1.0 and contains only one change.
