@@ -1,10 +1,10 @@
 """Configuration fixtures of the tests (compatible with modern Sphinx)."""
 
+import re
 from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
-import re
 
 pytest_plugins = "sphinx.testing.fixtures"
 
@@ -25,7 +25,12 @@ def _stub_network_for_images(monkeypatch):
 
     def _gif_bytes(w: int, h: int) -> bytes:
         # Minimal GIF header: "GIF89a" + width + height (little-endian) + 3 padding bytes
-        return b"GIF89a" + int(w).to_bytes(2, "little") + int(h).to_bytes(2, "little") + b"\x00\x00\x00"
+        return (
+            b"GIF89a"
+            + int(w).to_bytes(2, "little")
+            + int(h).to_bytes(2, "little")
+            + b"\x00\x00\x00"
+        )
 
     def fake_get(url: str, *args, **kwargs):
         m = re.search(r"(\d+)x(\d+)", url)
