@@ -8,9 +8,9 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 """
 
 from io import BytesIO
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union, Sequence, cast
 from os import PathLike
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Sequence, Union, cast
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
