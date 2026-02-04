@@ -1,6 +1,6 @@
 extensions = ["sphinx_favicon"]
 
-master_doc = "index"
+root_doc = "index"
 exclude_patterns = ["_build"]
 
 html_theme = "basic"
