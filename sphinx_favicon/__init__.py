@@ -9,7 +9,8 @@ The sphinx-favicon extension gives you more flexibility than the standard favico
 
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union, Sequence, cast
+from os import PathLike
 from urllib.parse import urlparse
 
 import docutils.nodes as nodes
@@ -21,7 +22,9 @@ from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
-FaviconsDef = Union[Dict[str, str], List[Dict[str, str]]]
+# Configuration type accepted for `favicons` in conf.py
+# Support a single dict, or a list of dicts/strings (strings are shorthand for {"href": <value>})
+FaviconsDef = Union[Dict[str, str], List[Union[Dict[str, str], str]]]
 
 OUTPUT_STATIC_DIR: str = "_static"
 "output folder for static items in the html builder"
@@ -85,7 +88,9 @@ def generate_meta(favicon: Dict[str, str]) -> str:
 
 
 def _sizes(
-    favicon: Dict[str, str], static_path: List[str], confdir: str
+    favicon: Dict[str, str],
+    static_path: Sequence[Union[str, PathLike[str]]],
+    confdir: Union[str, PathLike[str]],
 ) -> Dict[str, str]:
     """Compute the size of the favicon if its size is not explicitly defined.
 
@@ -178,13 +183,17 @@ def _static_to_href(pathto: Callable, init_favicon: Dict[str, str]) -> Dict[str,
 
     # if the link is absolute do nothing, else replace it with a full one
     if not is_absolute:
-        favicon["href"] = pathto(f"{OUTPUT_STATIC_DIR}/{link}", resource=True)
+        # `pathto` may return a `_StrPath`, cast to `str` for consistent typing
+        favicon["href"] = str(pathto(f"{OUTPUT_STATIC_DIR}/{link}", resource=True))
 
     return favicon
 
 
 def create_favicons_meta(
-    pathto: Callable, favicons: FaviconsDef, static_path: List[str], confdir: str
+    pathto: Callable,
+    favicons: FaviconsDef,
+    static_path: Sequence[Union[str, PathLike[str]]],
+    confdir: Union[str, PathLike[str]],
 ) -> Optional[str]:
     """Create ``<link>`` elements for favicons defined in configuration.
 
@@ -216,6 +225,7 @@ def create_favicons_meta(
                 "Custom favicons will not be included in build."
             )
             continue
+        favicon = cast(Dict[str, str], favicon)
         favicon = _sizes(favicon, static_path, confdir)
         tag = generate_meta(_static_to_href(pathto, favicon))
         meta_favicons.append(tag)
@@ -240,10 +250,10 @@ def html_page_context(
         doctree: the docutils document tree
     """
     # extract parameters from app
-    favicons: Optional[Dict[str, str]] = app.config["favicons"]
+    favicons: Optional[FaviconsDef] = app.config["favicons"]
     pathto: Callable = context["pathto"]
-    static_path: List[str] = app.config["html_static_path"]
-    confdir: str = app.confdir
+    static_path = cast(Sequence[Union[str, PathLike[str]]], app.config["html_static_path"])  # type: ignore[assignment]
+    confdir: Union[str, PathLike[str]] = app.confdir
 
     if not (doctree and favicons):
         return
