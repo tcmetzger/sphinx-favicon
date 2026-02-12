@@ -1,10 +1,12 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-favicon"
 version = "1.1.0"
+license = "MIT"
+license-files = ["LICENSE"]
 description = "Sphinx Extension adding support for custom favicons"
 keywords = ["sphinx", "extension", "favicon", "meta html"]
 classifiers = [
@@ -13,7 +15,6 @@ classifiers = [
     "Environment :: Web Environment",
     "Framework :: Sphinx :: Extension",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.10",
@@ -41,9 +42,6 @@ dependencies = [
 name = "Timo Cornelius Metzger"
 email = "coding@tcmetzger.net"
 
-[project.license]
-text = "MIT"
-
 [project.readme]
 file = "README.md"
 content-type = "text/markdown"
@@ -62,7 +60,6 @@ doc = [
 ]
 
 [tool.setuptools]
-license-files = ["LICENSE"]
 packages = ["sphinx_favicon"]
 
 [tool.ruff]
