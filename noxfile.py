@@ -7,6 +7,24 @@ import nox
 def test(session):
     """Apply the tests on the lib."""
     session.install(".[test]")
+    # If running inside GitHub Actions, record Python/Sphinx versions for step outputs
+    session.run(
+        "python",
+        "-c",
+        "import os,sys; p=os.environ.get('GITHUB_OUTPUT');\n"
+        "v='.'.join(map(str, sys.version_info[:3]));\n"
+        "open(p,'a').write(f'python={v}\\n') if p else None",
+        external=False,
+    )
+    session.run(
+        "python",
+        "-c",
+        "import os; p=os.environ.get('GITHUB_OUTPUT');\n"
+        "try:\n import sphinx; sv=sphinx.__version__\n"
+        "except Exception:\n sv=None\n"
+        "open(p,'a').write(f'sphinx={sv}\\n') if p and sv else None",
+        external=False,
+    )
     test_files = session.posargs or ["tests"]
     session.run("pytest", "--color=yes", "--cov", "--cov-report=html", *test_files)
 
