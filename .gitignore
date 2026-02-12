@@ -1,3 +1,30 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Tooling caches
+.ruff_cache/
+.nox/
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
