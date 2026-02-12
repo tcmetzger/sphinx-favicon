@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools >= 40.9.0","wheel"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-favicon"
-version = "1.0.1"
+version = "1.1.0"
 description = "Sphinx Extension adding support for custom favicons"
 keywords = ["sphinx", "extension", "favicon", "meta html"]
 classifiers = [
@@ -16,10 +16,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python",
     "Topic :: Utilities",
     "Topic :: Documentation",
@@ -27,8 +27,15 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
     "Topic :: Text Processing",
 ]
-requires-python = ">=3.7"
-dependencies = ["sphinx>=3.4"]
+requires-python = ">=3.10"
+dependencies = [
+    # Sphinx >=8 removes deprecated internals and is compatible with Python 3.13
+    # Also compatible with Sphinx 9 (Python >=3.12). Keep <10 for safety.
+    "sphinx>=8.1,<10",
+    # Direct runtime deps used by the extension
+    "imagesize>=1.3",
+    "requests>=2.30",
+]
 
 [[project.authors]]
 name = "Timo Cornelius Metzger"
@@ -47,7 +54,12 @@ Homepage = "https://github.com/tcmetzger/sphinx-favicon"
 [project.optional-dependencies]
 dev = ["pre-commit", "nox"]
 test = ["pytest", "beautifulsoup4", "pytest-cov"]
-doc = ["sphinx<6", "pydata-sphinx-theme", "sphinx-copybutton", "sphinx-design"]
+doc = [
+    "sphinx>=8.1,<10",
+    "pydata-sphinx-theme",
+    "sphinx-copybutton",
+    "sphinx-design",
+]
 
 [tool.setuptools]
 license-files = ["LICENSE"]

@@ -2,17 +2,19 @@
 
 # -- imports and read config ---------------------------------------------------
 import datetime as dt
+from importlib import metadata
 
-import pkg_resources
-
-version = pkg_resources.require("sphinx-favicon")[0].version
+try:
+    release_version = metadata.version("sphinx-favicon")
+except metadata.PackageNotFoundError:
+    release_version = "unknown-dev"
 year = dt.datetime.now().year
 
 # -- Project information -------------------------------------------------------
 project = "Sphinx Favicon"
 copyright = f"{year}, Timo Metzger"
 author = "Timo Metzger"
-release = version
+release = release_version
 
 # -- General configuration -----------------------------------------------------
 extensions = [

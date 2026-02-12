@@ -1,4 +1,4 @@
-name: Python lint and test
+name: CI
 
 on:
   push:
@@ -7,38 +7,48 @@ on:
     branches: [ main ]
 
 jobs:
-
-  format:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
-      - uses: pre-commit/action@v3.0.0
+          python-version: '3.12'
+      - uses: pre-commit/action@v3.0.1
 
-  test:
-    runs-on: ${{ matrix.os }}
+  tests:
+    name: Python ${{ matrix.python }} | Sphinx ${{ matrix.sphinx }}
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        python-version: ['3.7', '3.8', '3.9', '3.10']
         include:
-          - os: macos-latest
-            python-version: '3.9'
-          - os: windows-latest
-            python-version: '3.9'
+          - python: '3.10'
+            sphinx: '8.1.*'
+          - python: '3.11'
+            sphinx: '8.1.*'
+          - python: '3.12'
+            sphinx: '9.1.*'
+          - python: '3.13'
+            sphinx: '9.1.*'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: pip install .[test]
-      - name: MyPy checks
+          python-version: ${{ matrix.python }}
+      - name: Install tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install nox
+      - name: Install Sphinx and test deps
+        run: |
+          pip install "sphinx==${{ matrix.sphinx }}"
+          pip install -e .[test]
+      - name: Type check (mypy)
         run: |
           pip install mypy
           mypy --ignore-missing-imports --install-types --non-interactive sphinx_favicon
-      - name: Run Tests for ${{ matrix.python-version }}
-        run: pytest --color=yes --cov --cov-report=xml tests
+      - name: Run tests
+        run: |
+          nox -s test -- --color=yes --cov --cov-report=xml
