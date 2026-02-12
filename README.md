@@ -7,7 +7,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tcmetzger/sphinx-favicon/basic-ci.yml?logo=github&logoColor=white)](https://github.com/tcmetzger/sphinx-favicon/actions/workflows/basic-ci.yml)
 [![Read the Docs (version)](https://img.shields.io/readthedocs/sphinx-favicon/latest?logo=readthedocs&logoColor=white)](https://readthedocs.org/projects/sphinx-favicon/)
 
-> **Note: Updating from Version 0.2 to Version 1.0**
+> **Note: Updating from Version 0.2 to Version 1.x and beyond**
 >
 > Between v0.2 and v1.0, the module name of the extension changed to better conform with Python standards. Please update the name used in the extension list of your `conf.py` from `sphinx-favicon` to `sphinx_favicon`!
 
